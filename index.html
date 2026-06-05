@@ -12,7 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;600;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 </head>
 
@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <img src="profile.jpg" alt="Luis Jardón Piquero" class="profile-image">
+                    <img src="assets/img/profile.jpg" alt="Luis Jardón Piquero" class="profile-image">
                 </div>
             </div>
         </section>
@@ -141,7 +141,7 @@
                     <!-- Project: Happiness&Co -->
                     <article class="project-card">
                         <div class="project-image">
-                            <img src="happiness_mockup.png" alt="Happiness&Co Mockup"
+                            <img src="assets/img/happiness_mockup.png" alt="Happiness&Co Mockup"
                                 style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <div class="project-info">
@@ -164,28 +164,49 @@
                     <!-- Project: Home Server NAS -->
                     <article class="project-card">
                         <div class="project-image">
-                            <img src="nas_home_server.png" alt="Home Server Setup"
+                            <img src="assets/img/nas_home_server.png" alt="Home Server Setup"
                                 style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <div class="project-info">
                             <h3 class="project-title">Mi Servidor Casero (Home Lab)</h3>
                             <p class="project-desc">
-                                "Decidí montar mi propio servidor utilizando un portátil antiguo que tenía en casa. Lo
-                                configuré desde cero para alojar mis propios servicios, incluyendo flujos de
-                                automatización con <strong>n8n</strong> corriendo sobre <strong>Docker</strong>. Es mi
-                                pequeño laboratorio personal donde experimento con redes y despliegues."
-                            </p>
+                                Decidí montar mi propio servidor utilizando un portátil antiguo mediante Debian para
+                                poder practicar <strong>redes</strong> realizando <strong>control de usuarios </strong>.
                             <div class="project-tags">
                                 <span>Docker</span>
                                 <span>n8n</span>
                                 <span>Linux</span>
                                 <span>Self-Hosted</span>
                             </div>
-                            <a href="#" class="project-link">Leer más &rarr;</a>
-                        </div>
-                        </footer>
+                            <a href="servidor-personal.html" class="project-link">Leer más &rarr;</a>
+                    </article>
+                </div> <!-- End projects-grid -->
+            </div> <!-- End container -->
+        </section>
 
-                        <script src="script.js"></script>
+
+
+        <!-- Contact Section -->
+        <section id="contacto" class="contact-section">
+            <div class="container" style="text-align: center;">
+                <h2 class="section-title">Contacto</h2>
+                <p
+                    style="margin-bottom: 30px; color: var(--text-muted); max-width: 600px; margin-left: auto; margin-right: auto;">
+                    ¿Tienes una idea en mente o simplemente quieres comentarme algo ? Estoy disponible para nuevos retos,
+                    nuevas oportunidades.
+                </p>
+                <a href="contacto.html" class="btn btn-primary">Contactar Ahora</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2024 Luis Jardón Piquero. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
 </body>
 
 </html>
