@@ -1,0 +1,15 @@
+# Portfolio — .gitignore
+
+# Archivos de trabajo/preview internos
+index_backup.html
+style_backup.css
+preview.html
+preview.css
+preview.js
+layout-options.html
+skills-preview.html
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
