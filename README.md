@@ -25,22 +25,6 @@ portfolio/
 ├── script.js         ← Interactividad
 └── assets/
     └── img/          ← Imágenes y recursos
-```
-
----
-
-## 🚀 Despliegue local
-
-Simplemente abre `index.html` en tu navegador, o sirve la carpeta con cualquier servidor estático:
-
-```bash
-# Con Python
-python -m http.server 8080
-
-# Con Node
-npx serve .
-```
-
 ---
 
 ## 👤 Autor
