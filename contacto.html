@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto | Luis Jardón Piquero</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <style>
+        .contact-page {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 100px;
+        }
+
+        .contact-card {
+            background: rgba(11, 13, 23, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 50px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .contact-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .contact-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .email-btn {
+            background: rgba(212, 163, 115, 0.1);
+            color: var(--accent-color);
+            border-color: rgba(212, 163, 115, 0.2);
+        }
+
+        .email-btn:hover {
+            background: rgba(212, 163, 115, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 163, 115, 0.1);
+        }
+
+        .linkedin-btn {
+            background: rgba(10, 102, 194, 0.1);
+            color: #0a66c2;
+            border-color: rgba(10, 102, 194, 0.2);
+        }
+
+        .linkedin-btn:hover {
+            background: rgba(10, 102, 194, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(10, 102, 194, 0.1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-card {
+                padding: 30px 20px;
+                max-width: 100%;
+            }
+
+            .contact-title {
+                font-size: 2rem;
+            }
+
+            .contact-btn {
+                font-size: 1rem;
+                padding: 14px 20px;
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">Luis Jardón<span class="dot">.</span></a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">&larr; Volver</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container contact-page">
+        <div class="contact-card">
+            <h1 class="contact-title">Contacta conmigo</h1>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">
+                ¿Tienes alguna pregunta sobre el proyecto o quieres colaborar?
+                Aquí tienes mis canales directos.
+            </p>
+
+            <div class="contact-options">
+                <a href="#" id="email-btn" class="contact-btn email-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    <span id="email-text">luisjardonpiquero@gmail.com</span>
+                </a>
+
+                <a href="https://www.linkedin.com/in/luis-jard%C3%B3n-p/" target="_blank"
+                    class="contact-btn linkedin-btn">
+                    <i class="devicon-linkedin-plain"></i>
+                    Conectar en LinkedIn
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2024 Luis Jardón Piquero. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('email-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            const email = "luisjardonpiquero@gmail.com";
+
+            navigator.clipboard.writeText(email).then(() => {
+                const emailText = document.getElementById('email-text');
+                const originalText = emailText.textContent;
+
+                emailText.textContent = "¡Correo copiado!";
+
+                setTimeout(() => {
+                    emailText.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar: ', err);
+            });
+        });
+    </script>
+</body>
+
+</html>

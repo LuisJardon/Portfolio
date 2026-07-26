@@ -1,212 +1,273 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luis Jardón Piquero | Desarrollador Multiplataforma</title>
-    <meta name="description"
-        content="Portafolio de Luis Jardón Piquero, Desarrollador de Aplicaciones Multiplataforma.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;600;800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luis Jardón Piquero | Desarrollador Full Stack</title>
+<meta name="description" content="Portfolio de Luis Jardón Piquero, Desarrollador Full Stack — GestionBarber, VeoVeo, Home Lab y más.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230c0d0e'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='28' fill='%235fd6c4' text-anchor='middle'%3ELJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-    <header class="header">
-        <div class="container header-container">
-            <a href="#" class="logo">Luis Jardón<span class="dot">.</span></a>
-            <nav class="nav">
-                <ul class="nav-list">
-                    <li><a href="#inicio" class="nav-link">Inicio</a></li>
-                    <li><a href="#sobre-mi" class="nav-link">Sobre mí</a></li>
-                    <li><a href="#proyectos" class="nav-link">Proyectos</a></li>
-                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
-                </ul>
-                <button class="theme-toggle" aria-label="Cambiar tema">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="feather feather-sun">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </nav>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="section-nav" id="sectionNav">
+  <div class="sn-item" data-target="sobre-mi"><span class="sn-num">01</span><span class="sn-label">Sobre mí</span></div>
+  <div class="sn-item" data-target="proyectos"><span class="sn-num">02</span><span class="sn-label">Proyectos</span></div>
+  <div class="sn-item" data-target="automatizacion"><span class="sn-num">03</span><span class="sn-label">IA</span></div>
+  <div class="sn-item" data-target="stack"><span class="sn-num">04</span><span class="sn-label">Stack</span></div>
+  <div class="sn-item" data-target="experiencia"><span class="sn-num">05</span><span class="sn-label">Experiencia</span></div>
+  <div class="sn-item" data-target="contacto"><span class="sn-num">06</span><span class="sn-label">Contacto</span></div>
+</div>
+
+<nav>
+  <div class="nav-logo">Luis Jardón</div>
+  <div class="nav-links">
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#experiencia">Experiencia</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-kicker">Desarrollador full stack — Gijón, España</div>
+  <div class="stage">
+    <div class="rig" id="rig">
+      <div class="floor-glow"></div>
+      <div class="stand-base"></div>
+      <div class="stand-neck"></div>
+      <div class="monitor">
+        <div class="screen">
+          <div class="boot-text">Luis Jardón</div>
+          <div class="boot-line"></div>
         </div>
-    </header>
+      </div>
+    </div>
+  </div>
+  <h1 class="hero-title">Desarrollador<br>Full Stack.</h1>
+  <p class="hero-sub">Construyo productos digitales de principio a fin — de la interfaz a la infraestructura que los sostiene.</p>
+  <div class="scroll-cue">Scroll<span></span></div>
+</section>
 
-    <main>
-        <section id="inicio" class="hero">
-            <div class="container hero-container">
-                <div class="hero-content">
-                    <span class="greeting">Hola, soy</span>
-                    <h1 class="hero-title">Luis Jardón Piquero</h1>
-                    <h2 class="hero-subtitle">Desarrollo de aplicaciones multiplataforma</h2>
-                    <p class="hero-description">
-                        Creo experiencias digitales completas, desde la interfaz hasta la base de datos.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="#proyectos" class="btn btn-primary">Ver Proyectos</a>
-                        <a href="#contacto" class="btn btn-outline">Hablemos</a>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <img src="assets/img/profile.jpg" alt="Luis Jardón Piquero" class="profile-image">
-                </div>
-            </div>
-        </section>
+<section class="intro">
+  <div class="container">
+    <p class="reveal">Trabajo en el punto donde el <em>diseño</em> se encuentra con la <em>ingeniería</em> — construyendo productos completos, desde la interfaz hasta la infraestructura que los sostiene.</p>
+  </div>
+</section>
 
-        <section id="sobre-mi" class="about">
-            <div class="container">
-                <h2 class="section-title">Sobre mí</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>
-                            Soy <strong>Luis Jardón Piquero</strong>, un Desarrollador de Aplicaciones Multiplataforma
-                            con experiencia en el desarrollo completo de proyectos, desde la interfaz hasta la conexión
-                            con bases de datos SQL.
-                        </p>
-                        <p>
-                            Tengo un gran entusiasmo por aprender y utilizar nuevos métodos de trabajo, y busco
-                            activamente una oportunidad donde pueda contribuir con mis habilidades y crecer
-                            profesionalmente junto a un equipo innovador.
-                        </p>
-                    </div>
-                    <div class="skills-grid">
-                        <div class="skill-card">
-                            <i class="devicon-css3-plain colored"></i>
-                            <div class="skill-name">CSS</div>
-                            <div class="skill-level">Styling & Design</div>
-                        </div>
-                        <div class="skill-card">
-                            <i class="devicon-java-plain colored"></i>
-                            <div class="skill-name">Java</div>
-                            <div class="skill-level">Backend Development</div>
-                        </div>
-                        <div class="skill-card">
-                            <i class="devicon-python-plain colored"></i>
-                            <div class="skill-name">Python</div>
-                            <div class="skill-level">Scripting & Analysis</div>
-                        </div>
-                        <div class="skill-card">
-                            <i class="devicon-pandas-plain colored"></i>
-                            <div class="skill-name">Pandas</div>
-                            <div class="skill-level">Data Analysis</div>
-                        </div>
-                        <div class="skill-card">
-                            <i class="devicon-postgresql-plain colored"></i>
-                            <div class="skill-name">SQL</div>
-                            <div class="skill-level">Relational Databases</div>
-                        </div>
-                        <div class="skill-card">
-                            <i class="devicon-mongodb-plain colored"></i>
-                            <div class="skill-name">MongoDB</div>
-                            <div class="skill-level">NoSQL</div>
-                        </div>
-                        <div class="skill-card">
-                            <i class="devicon-linux-plain"></i>
-                            <div class="skill-name">Linux</div>
-                            <div class="skill-level">System Administration</div>
-                        </div>
-                        <div class="skill-card">
-                            <i class="devicon-docker-plain colored"></i>
-                            <div class="skill-name">Docker</div>
-                            <div class="skill-level">Containerization</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<section class="about" id="sobre-mi">
+  <div class="container">
+    <h2 class="reveal">Sobre mí</h2>
+    <div class="about-grid">
+      <div class="about-photo reveal"><img src="assets/img/profile-about.jpg" alt="Luis Jardón Piquero"></div>
+      <div class="about-body reveal">
+        <p><strong>Luis Jardón Piquero</strong>, desarrollador de aplicaciones multiplataforma. Me interesa todo lo que ocurre entre la interfaz y la base de datos: la parte que se ve y la que sostiene lo que se ve.</p>
+        <p>Aprendo rápido, cuido el detalle y busco unirme a un equipo donde poder crecer construyendo cosas que importen.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <section id="proyectos" class="projects">
-            <div class="container">
-                <h2 class="section-title">Proyectos Destacados</h2>
-                <div class="projects-grid">
-                    <!-- Project: Happiness&Co -->
-                    <article class="project-card">
-                        <div class="project-image">
-                            <img src="assets/img/happiness_mockup.png" alt="Happiness&Co Mockup"
-                                style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="project-info">
-                            <h3 class="project-title">Happiness&Co - Eventos</h3>
-                            <p class="project-desc">
-                                Plataforma web para la gestión y visualización de eventos locales, incluyendo
-                                conciertos,
-                                festivales y actividades culturales en Gijón.
-                            </p>
-                            <div class="project-tags">
-                                <span>HTML</span>
-                                <span>CSS</span>
-                                <span>Web Design</span>
-                            </div>
-                            <a href="https://luisjp1999.neocities.org/" target="_blank" class="project-link">Ver
-                                Proyecto
-                                &rarr;</a>
-                        </div>
-                    </article>
-                    <!-- Project: Home Server NAS -->
-                    <article class="project-card">
-                        <div class="project-image">
-                            <img src="assets/img/nas_home_server.png" alt="Home Server Setup"
-                                style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="project-info">
-                            <h3 class="project-title">Mi Servidor Casero (Home Lab)</h3>
-                            <p class="project-desc">
-                                Decidí montar mi propio servidor utilizando un portátil antiguo mediante Debian para
-                                poder practicar <strong>redes</strong> realizando <strong>control de usuarios </strong>.
-                            <div class="project-tags">
-                                <span>Docker</span>
-                                <span>n8n</span>
-                                <span>Linux</span>
-                                <span>Self-Hosted</span>
-                            </div>
-                            <a href="servidor-personal.html" class="project-link">Leer más &rarr;</a>
-                    </article>
-                </div> <!-- End projects-grid -->
-            </div> <!-- End container -->
-        </section>
+<section class="projects" id="proyectos">
+  <div class="container">
+    <div class="section-kicker">Proyectos seleccionados</div>
 
+    <div class="project-row reveal">
+      <div>
+        <div class="project-index">01 — TFG</div>
+        <div class="project-title">GestionBarber</div>
+        <p class="project-desc">Plataforma de reservas para barbería con panel de administración, app Android nativa y despliegue propio en producción.</p>
+        <div class="project-tags"><span>React</span><span>FastAPI</span><span>MySQL</span><span>Docker</span></div>
+        <a href="https://gestionbarber.rozadasnas.duckdns.org" target="_blank" class="project-link">Ver proyecto →</a>
+      </div>
+      <div class="project-media"><img src="assets/img/gestionbarber.png" alt="GestionBarber"></div>
+    </div>
 
+    <div class="project-row reveal">
+      <div>
+        <div class="project-index">02 — Infraestructura</div>
+        <div class="project-title">Home Lab</div>
+        <p class="project-desc">Servidor casero sobre Debian para practicar redes, automatización y control de usuarios en un entorno self-hosted.</p>
+        <div class="project-tags"><span>Docker</span><span>n8n</span><span>Linux</span></div>
+        <a href="servidor-personal.html" class="project-link">Leer más →</a>
+      </div>
+      <div class="project-media"><img src="assets/img/nas_home_server.png" alt="Home Lab"></div>
+    </div>
 
-        <!-- Contact Section -->
-        <section id="contacto" class="contact-section">
-            <div class="container" style="text-align: center;">
-                <h2 class="section-title">Contacto</h2>
-                <p
-                    style="margin-bottom: 30px; color: var(--text-muted); max-width: 600px; margin-left: auto; margin-right: auto;">
-                    ¿Tienes una idea en mente o simplemente quieres comentarme algo ? Estoy disponible para nuevos retos,
-                    nuevas oportunidades.
-                </p>
-                <a href="contacto.html" class="btn btn-primary">Contactar Ahora</a>
-            </div>
-        </section>
-    </main>
+    <div class="project-row reveal">
+      <div>
+        <div class="project-index">03 — Self-hosted</div>
+        <div class="project-title">VeoVeo</div>
+        <p class="project-desc">App Android para llevar el registro de películas y series vistas y pendientes, con API REST propia en Flask y SQLite corriendo en mi servidor. Un proyecto personal en uso activo.</p>
+        <div class="project-tags"><span>Android</span><span>Flask</span><span>SQLite</span></div>
+        <a href="https://github.com/LuisJardon/VeoVeoApp" target="_blank" class="project-link">Código →</a>
+      </div>
+      <div class="project-media project-media-icon"><img src="assets/img/veoveo.png" alt="VeoVeo"></div>
+    </div>
 
-    <footer class="footer">
-        <div class="container footer-container">
-            <p>&copy; 2024 Luis Jardón Piquero. Todos los derechos reservados.</p>
+    <div class="project-row reveal">
+      <div>
+        <div class="project-index">04 — Web</div>
+        <div class="project-title">Happiness&Co</div>
+        <p class="project-desc">Plataforma de eventos locales: conciertos, festivales y actividades culturales en Gijón.</p>
+        <div class="project-tags"><span>HTML</span><span>CSS</span></div>
+        <a href="https://luisjp1999.neocities.org/" target="_blank" class="project-link">Ver proyecto →</a>
+      </div>
+      <div class="project-media"><img src="assets/img/happiness_mockup.png" alt="Happiness&Co"></div>
+    </div>
+  </div>
+</section>
+
+<section class="automation" id="automatizacion">
+  <div class="container">
+    <div class="automation-head reveal">
+      <h2>IA &amp; automatización</h2>
+      <p>Me interesa especialmente diseñar flujos que eliminan trabajo manual: automatizaciones e integraciones con IA que conectan herramientas y toman pequeñas decisiones por su cuenta. Este es, resumido como un flujo, el proceso de evaluarme para un puesto:</p>
+    </div>
+
+    <div class="flow-wrap reveal">
+      <div class="flow-run" id="runBtn"><span class="dot"></span><span id="runLabel">Ejecutar flujo</span></div>
+      <div class="flow-track" id="flowTrack">
+        <div class="flow-node" data-i="0">
+          <div class="num">1</div>
+          <div class="body">
+            <div class="kind">Disparador</div>
+            <div class="title">Necesitas un perfil full stack</div>
+            <div class="detail">Alguien que pueda hacerse cargo de un producto de principio a fin.</div>
+          </div>
         </div>
-    </footer>
+        <div class="flow-connector" data-i="0"><div class="traveler"></div></div>
+        <div class="flow-node" data-i="1">
+          <div class="num">2</div>
+          <div class="body">
+            <div class="kind">Consulta</div>
+            <div class="title">Revisas mi portfolio</div>
+            <div class="detail">Proyectos reales, en producción, con el código disponible.</div>
+          </div>
+        </div>
+        <div class="flow-connector" data-i="1"><div class="traveler"></div></div>
+        <div class="flow-node" data-i="2">
+          <div class="num">3</div>
+          <div class="body">
+            <div class="kind">Consulta</div>
+            <div class="title">Revisas mi CV</div>
+            <div class="detail">Formación, experiencia y stack técnico, sin relleno.</div>
+          </div>
+        </div>
+        <div class="flow-connector" data-i="2"><div class="traveler"></div></div>
+        <div class="flow-node" data-i="3">
+          <div class="num">4</div>
+          <div class="body">
+            <div class="kind">Contacto</div>
+            <div class="title">Hablamos</div>
+            <div class="detail">Respuesta rápida y una conversación directa sobre el proyecto.</div>
+          </div>
+        </div>
+        <div class="flow-connector" data-i="3"><div class="traveler"></div></div>
+        <div class="flow-node" data-i="4">
+          <div class="num">5</div>
+          <div class="body">
+            <div class="kind">Resultado</div>
+            <div class="title">Buen encaje</div>
+            <div class="detail">Un desarrollador implicado, resolutivo y fácil de integrar en el equipo.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-result">
+        <span class="label">Estado</span>
+        <span class="value" id="flowOutput">match_encontrado</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script src="js/script.js"></script>
+<section class="stack" id="stack">
+  <div class="container">
+    <div class="section-kicker">Capacidades</div>
+    <div class="stack-list">
+      <div class="stack-item reveal reveal-stagger" style="--i:0">
+        <div class="n">Frontend</div>
+        <div class="t">React · TypeScript</div>
+        <div class="stack-icons"><i class="devicon-react-original"></i><i class="devicon-typescript-plain"></i><i class="devicon-css3-plain"></i><i class="devicon-html5-plain"></i></div>
+      </div>
+      <div class="stack-item reveal reveal-stagger" style="--i:1">
+        <div class="n">Backend</div>
+        <div class="t">Python · Java · FastAPI</div>
+        <div class="stack-icons"><i class="devicon-python-plain"></i><i class="devicon-java-plain"></i><i class="devicon-fastapi-plain"></i></div>
+      </div>
+      <div class="stack-item reveal reveal-stagger" style="--i:2">
+        <div class="n">Datos</div>
+        <div class="t">SQL · MongoDB</div>
+        <div class="stack-icons"><i class="devicon-mysql-plain"></i><i class="devicon-postgresql-plain"></i><i class="devicon-mongodb-plain"></i><i class="devicon-pandas-plain"></i></div>
+      </div>
+      <div class="stack-item reveal reveal-stagger" style="--i:3">
+        <div class="n">Infraestructura</div>
+        <div class="t">Docker · Linux · Nginx</div>
+        <div class="stack-icons"><i class="devicon-docker-plain"></i><i class="devicon-linux-plain"></i><i class="devicon-nginx-original"></i></div>
+      </div>
+      <div class="stack-item reveal reveal-stagger" style="--i:4">
+        <div class="n">Mobile</div>
+        <div class="t">Android</div>
+        <div class="stack-icons"><i class="devicon-android-plain"></i><i class="devicon-java-plain"></i></div>
+      </div>
+      <div class="stack-item reveal reveal-stagger" style="--i:5">
+        <div class="n">IA &amp; automatización</div>
+        <div class="t">n8n · APIs</div>
+        <div class="stack-icons"><i class="devicon-python-plain"></i><i class="devicon-git-plain"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="experience" id="experiencia">
+  <div class="container">
+    <div class="section-kicker">Experiencia</div>
+    <div class="exp-list">
+      <div class="exp-row reveal reveal-stagger" style="--i:0">
+        <div class="exp-company">Capgemini</div>
+        <div class="exp-role">Developer Salesforce / Consultor Técnico</div>
+        <div class="exp-desc">Acelerador técnico a medida para automatizar el envío de comunicaciones e interfaces con Lightning Web Components.</div>
+      </div>
+      <div class="exp-row reveal reveal-stagger" style="--i:1">
+        <div class="exp-company">Funiverse</div>
+        <div class="exp-role">Desarrollador Web Frontend</div>
+        <div class="exp-desc">Sitio web desde cero con HTML5, CSS3 y JavaScript, con diseño responsive.</div>
+      </div>
+      <div class="exp-row reveal reveal-stagger" style="--i:2">
+        <div class="exp-company">Introvisual</div>
+        <div class="exp-role">Desarrollador Web / Consultor SEO</div>
+        <div class="exp-desc">Optimización SEO orgánico y gestión de contenidos con WordPress.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contacto">
+  <div class="container">
+    <h2 class="reveal">Hablemos.</h2>
+    <div class="contact-links reveal">
+      <a href="mailto:luisjardonpiquero@gmail.com" class="contact-cta">Escríbeme →</a>
+      <a href="https://www.linkedin.com/in/luis-jard%C3%B3n-p/" target="_blank" class="contact-cta contact-cta-alt">LinkedIn →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <span>© 2026 Luis Jardón Piquero</span>
+    <div class="footer-links">
+      <a href="mailto:luisjardonpiquero@gmail.com">luisjardonpiquero@gmail.com</a>
+      <a href="https://www.linkedin.com/in/luis-jard%C3%B3n-p/" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
 </body>
-
 </html>
