@@ -1,3 +1,15 @@
+document.querySelectorAll('.mail-link').forEach(link=>{
+  link.addEventListener('click', ()=>{
+    const email = link.dataset.email;
+    if(navigator.clipboard && email){
+      navigator.clipboard.writeText(email).catch(()=>{});
+    }
+    const original = link.dataset.label || link.textContent;
+    link.textContent = 'Copiado ✓ ' + email;
+    setTimeout(()=>{ link.textContent = original; }, 2200);
+  });
+});
+
 const rig = document.getElementById('rig');
 document.addEventListener('mousemove', (e)=>{
   const x = (e.clientX / window.innerWidth - 0.5) * 30;
