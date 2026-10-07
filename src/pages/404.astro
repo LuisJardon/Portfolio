@@ -2,7 +2,7 @@
 // Página de error 404 (Caddy la sirve cuando una ruta no existe). Bilingüe: no sabemos de qué versión viene el visitante.
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
-import { proyectos, rutas } from "../data/contenido";
+import { conPagina, rutas } from "../data/contenido";
 ---
 
 <Base lang="es" title="Página no encontrada · Luis Jardón Piquero" description="Esta página no existe. Vuelve a la portada o mira mis proyectos." ruta="/404" alterna="/en/">
@@ -18,7 +18,7 @@ import { proyectos, rutas } from "../data/contenido";
     </div>
     <h2 class="otros-titulo">Proyectos</h2>
     <ul class="no-encontrada-lista">
-      {proyectos.map((p) => <li><a href={rutas.es.proyecto(p.slug)}>{p.titulo} <span aria-hidden="true">→</span></a></li>)}
+      {conPagina().map((p) => <li><a href={rutas.es.proyecto(p.slug)}>{p.titulo} <span aria-hidden="true">→</span></a></li>)}
     </ul>
   </main>
 </Base>

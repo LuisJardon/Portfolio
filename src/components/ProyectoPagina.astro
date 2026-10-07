@@ -3,7 +3,7 @@
 import Base from "../layouts/Base.astro";
 import Nav from "./Nav.astro";
 import Pie from "./Pie.astro";
-import { proyectos, ui, rutas } from "../data/contenido";
+import { conPagina, ui, rutas } from "../data/contenido";
 import type { Lang, Proyecto } from "../data/contenido";
 import { iconoDe } from "../data/iconos";
 
@@ -12,8 +12,9 @@ const { lang, proyecto: p } = Astro.props;
 const t = ui[lang];
 const otra: Lang = lang === "es" ? "en" : "es";
 const img = (f: string) => `/img/${f}`;
-const i = proyectos.indexOf(p);
-const siguiente = proyectos[(i + 1) % proyectos.length];
+const lista = conPagina(); // los privados no tienen página
+const i = lista.indexOf(p);
+const siguiente = lista[(i + 1) % lista.length];
 const url = p.web ?? p.repo;
 const barra = url ? url.replace(/^https?:\/\//, "").replace(/\/$/, "") : `${p.slug} · ${p.nota?.[lang] ?? (lang === "es" ? "privado" : "private")}`.toLowerCase();
 const titulo = `${p.titulo} · Luis Jardón Piquero`;

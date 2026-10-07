@@ -28,7 +28,9 @@ const colocarCartas = (dur: number) => {
   orden.forEach((c, d) => gsap.to(c, { x: 0, y: 0, xPercent: -d * 5, yPercent: d * 5.5, rotate: -d * 3.5 + 2, scale: 1 - d * 0.05, zIndex: 10 - d, opacity: 1, duration: dur, ease: "expo.out" }));
   const delante = orden[0];
   nombreMazo.textContent = delante.dataset.titulo!;
-  verMazo.href = delante.dataset.ancla!;
+  // Los proyectos privados no tienen enlace: se oculta el "ver" mientras su carta está delante.
+  verMazo.hidden = !delante.dataset.ancla;
+  if (delante.dataset.ancla) verMazo.href = delante.dataset.ancla;
   // Las webs reales se abren en pestaña nueva; las páginas de detalles, en la misma.
   if (delante.dataset.externo) { verMazo.target = "_blank"; verMazo.rel = "noopener"; } else { verMazo.removeAttribute("target"); verMazo.removeAttribute("rel"); }
   if (tocado) ayuda.textContent = `${cartas.indexOf(delante) + 1} / ${cartas.length}`;

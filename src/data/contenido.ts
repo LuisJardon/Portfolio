@@ -38,6 +38,8 @@ export interface Proyecto {
   web?: string;
   repo?: string;
   nota?: Txt;
+  /** Proyecto de cliente aún sin publicar: solo se ve la tarjeta (sin enlace ni página de detalles). */
+  privado?: boolean;
   /** Página interna del proyecto. */
   pagina: {
     rol: Txt;
@@ -49,6 +51,9 @@ export interface Proyecto {
     galeria?: { img: string; alt: Txt }[];
   };
 }
+
+/** Proyectos con página de detalles propia (los privados no la tienen). */
+export const conPagina = () => proyectos.filter((p) => !p.privado);
 
 export const proyectos: Proyecto[] = [
   {
@@ -112,7 +117,9 @@ export const proyectos: Proyecto[] = [
     img: "judo-astures.webp",
     alt: { es: "Portada de la web de Judo Astures", en: "Judo Astures home page" },
     completa: "completa/judo-astures.webp",
-    nota: { es: "Pronto en línea", en: "Coming soon" },
+    // Privado hasta que el club lance la web: para mostrarlo entero, quitar "privado" (vuelve el enlace y su página).
+    privado: true,
+    nota: { es: "Proyecto para un cliente · se publicará con su lanzamiento", en: "Client project · goes public at launch" },
     pagina: {
       rol: { es: "Proyecto freelance completo", en: "End-to-end freelance project" },
       resumen: {

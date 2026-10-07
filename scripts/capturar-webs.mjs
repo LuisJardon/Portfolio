@@ -27,6 +27,8 @@ for (const [nombre, url] of webs) {
   } catch (e) { console.log(nombre, "ERROR", e.message); await p.close(); continue; }
   // Oculta el botón de "activar/reducir animaciones" de las demos: no forma parte del diseño.
   await p.evaluate(() => document.querySelectorAll("button").forEach((b) => { if (/animaciones/i.test(b.textContent || "")) b.style.display = "none"; }));
+  // Y la barra de herramientas del modo desarrollo de Astro (aparece al capturar desde un servidor local).
+  await p.evaluate(() => document.querySelectorAll("astro-dev-toolbar").forEach((t) => t.remove()));
   // Recorre la página para cargar imágenes perezosas y disparar apariciones.
   const alto = await p.evaluate(async () => {
     for (let y = 0; y < document.documentElement.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 120)); }

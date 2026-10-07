@@ -20,12 +20,14 @@ const vb = LJ.viewBox.join(" ");
 const cv = `/${persona.cv[lang]}`;
 const pagina = (p: Proyecto) => rutas[lang].proyecto(p.slug);
 // Al pulsar un proyecto: si tiene web publicada, se abre la web real (pestaña nueva); si no, su página de detalles.
-const destino = (p: Proyecto) => p.web ?? pagina(p);
+// Los privados (proyectos de cliente sin publicar) no llevan a ningún sitio.
+const destino = (p: Proyecto) => (p.privado ? "" : p.web ?? pagina(p));
 const nuevaPestana = (p: Proyecto) => (p.web ? { target: "_blank", rel: "noopener" } : {});
 // Lo que se lee en la barra de la "ventana" del navegador.
 const barra = (p: Proyecto) => {
   const u = p.web ?? p.repo;
-  return u ? u.replace(/^https?:\/\//, "").replace(/\/$/, "") : `${p.slug} · ${p.nota?.[lang] ?? (lang === "es" ? "privado" : "private")}`.toLowerCase();
+  const privado = lang === "es" ? "privado" : "private";
+  return u ? u.replace(/^https?:\/\//, "").replace(/\/$/, "") : `${p.slug} · ${p.privado ? privado : p.nota?.[lang] ?? privado}`.toLowerCase();
 };
 const destacados = proyectos.filter((p) => p.destacado);
 const otros = proyectos.filter((p) => !p.destacado);
@@ -66,7 +68,7 @@ const tiposFlujo = ["empresa", "negocio"] as const;
         <div class="mazo-pie">
           <button class="mazo-btn" type="button" data-pasar aria-label={t.mazoPasarLabel}>{t.mazoPasar} <span aria-hidden="true">→</span></button>
           <span class="mazo-ayuda" data-mazo-ayuda>{t.mazoAyuda}</span>
-          <a class="mazo-ver" href={destino(mazo[0])} {...nuevaPestana(mazo[0])} data-mazo-ver><span data-mazo-nombre>{mazo[0].titulo}</span> ↗</a>
+          <a class="mazo-ver" href={destino(mazo[0]) || undefined} {...nuevaPestana(mazo[0])} data-mazo-ver><span data-mazo-nombre>{mazo[0].titulo}</span> ↗</a>
         </div>
       </div>
     </section>
@@ -132,25 +134,26 @@ const tiposFlujo = ["empresa", "negocio"] as const;
 
       <div class="proy-grid">
         {destacados.map((p, i) => (
-          <article class={`proy con-enlace ${i === 0 ? "proy-grande" : ""}`} data-proy>
+          <article class={`proy ${p.privado ? "es-privado" : "con-enlace"} ${i === 0 ? "proy-grande" : ""}`} data-proy>
             <div class="ventana">
               <div class="ventana-barra"><i></i><i></i><i></i><span>{barra(p)}</span></div>
               <div class={`ventana-img ${p.encaje === "icono" ? "es-icono" : ""}`}>
                 <img src={img(p.completa ?? p.img)} alt={p.alt[lang]} loading="lazy" width="720" />
+                {p.privado && p.nota && <span class="sello-privado">{p.nota[lang]}</span>}
               </div>
             </div>
             <div class="proy-info">
               <p class="proy-n">{p.tipo[lang]} · {p.anio}</p>
-              <h3><a class="proy-link" href={destino(p)} {...nuevaPestana(p)}>{p.titulo}</a></h3>
+              <h3>{p.privado ? p.titulo : <a class="proy-link" href={destino(p)} {...nuevaPestana(p)}>{p.titulo}</a>}</h3>
               <p class="proy-desc">{p.desc[lang]}</p>
               <ul class="tags">{p.tags.map((tag) => <li>{tag}</li>)}</ul>
               <div class="proy-pie">
-                {p.web
+                {!p.privado && (p.web
                   ? <span class="proy-cta" aria-hidden="true">{t.verWeb} <span>↗</span></span>
-                  : <span class="proy-cta" aria-hidden="true">{t.verProyecto} <span>→</span></span>}
+                  : <span class="proy-cta" aria-hidden="true">{t.verProyecto} <span>→</span></span>)}
                 {p.web && <a class="proy-codigo" href={pagina(p)}>{t.detalles}</a>}
                 {p.repo && <a class="proy-codigo" href={p.repo} target="_blank" rel="noopener">{t.codigo}</a>}
-                {p.nota && <span class="proy-nota">{p.nota[lang]}</span>}
+                {p.nota && !p.privado && <span class="proy-nota">{p.nota[lang]}</span>}
               </div>
             </div>
           </article>
