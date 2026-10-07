@@ -29,6 +29,8 @@ const colocarCartas = (dur: number) => {
   const delante = orden[0];
   nombreMazo.textContent = delante.dataset.titulo!;
   verMazo.href = delante.dataset.ancla!;
+  // Las webs reales se abren en pestaña nueva; las páginas de detalles, en la misma.
+  if (delante.dataset.externo) { verMazo.target = "_blank"; verMazo.rel = "noopener"; } else { verMazo.removeAttribute("target"); verMazo.removeAttribute("rel"); }
   if (tocado) ayuda.textContent = `${cartas.indexOf(delante) + 1} / ${cartas.length}`;
 };
 colocarCartas(0);

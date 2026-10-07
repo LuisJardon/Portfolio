@@ -383,3 +383,7 @@ html.reduce .tarjeta { transition: none; }
 
 /* Altura de línea fija en las etiquetas en monoespaciada: cuando llega la fuente no cambian de alto ni empujan el contenido. */
 .caso-volver, .proy-n, .caso-ficha dt, .hero-pre, .sec-intro, .form-titulo, .otros-titulo { line-height: 1.5; }
+
+/* Barra de la ventana con enlace a la web real (páginas de proyecto) */
+.ventana-barra .barra-enlace { margin-left: 10px; flex: 1; min-width: 0; padding: 3px 10px; border-radius: 4px; background: var(--hundido); font: 400 11px var(--mono); color: var(--tinta); text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: background 0.2s, color 0.2s; }
+.ventana-barra .barra-enlace:hover { background: color-mix(in srgb, var(--acento) 12%, transparent); color: var(--acento); }

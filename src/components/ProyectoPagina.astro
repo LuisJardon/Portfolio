@@ -47,7 +47,7 @@ const titulo = `${p.titulo} · Luis Jardón Piquero`;
     <!-- La web completa, dentro de una ventana que se recorre a voluntad (o la imagen del proyecto). -->
     <figure class="caso-vista" data-sube>
       <div class="ventana">
-        <div class="ventana-barra"><i></i><i></i><i></i><span>{barra}</span></div>
+        <div class="ventana-barra"><i></i><i></i><i></i>{p.web ? <a class="barra-enlace" href={p.web} target="_blank" rel="noopener">{barra} <span aria-hidden="true">↗</span></a> : <span>{barra}</span>}</div>
         {p.completa
           ? <div class="caso-scroll" tabindex="0" data-lenis-prevent aria-label={t.paginaCompleta}><img src={img(p.completa)} alt={`${t.paginaCompleta}: ${p.titulo}`} width="720" /></div>
           : <div class={`ventana-img caso-imagen ${p.encaje === "icono" ? "es-icono" : ""}`}><img src={img(p.img)} alt={p.alt[lang]} width="800" height="600" /></div>}
