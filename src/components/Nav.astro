@@ -1,0 +1,47 @@
+---
+// Menú superior (escritorio + móvil). En la portada los enlaces son anclas; en las páginas de proyecto llevan a la portada.
+import { LJ } from "../data/logoLJ";
+import { persona, ui, rutas } from "../data/contenido";
+import type { Lang } from "../data/contenido";
+
+interface Props { lang: Lang; alterna: string; enPortada?: boolean }
+const { lang, alterna, enPortada = false } = Astro.props;
+const t = ui[lang];
+const pre = enPortada ? "" : rutas[lang].inicio;
+const enlaces = [
+  ["sobre-mi", t.nav.sobre],
+  ["experiencia", t.nav.experiencia],
+  ["proyectos", t.nav.proyectos],
+  ["encajamos", t.nav.encajamos],
+  ["contacto", t.nav.contacto],
+];
+const cv = `/${persona.cv[lang]}`;
+---
+
+<header class="nav" data-nav>
+  <a href={enPortada ? "#contenido" : rutas[lang].inicio} class="marca" aria-label={`Luis Jardón, ${lang === "es" ? "inicio" : "home"}`}>
+    <svg viewBox={LJ.viewBox.join(" ")} aria-hidden="true">
+      <path class="trazo trazo-l" d={LJ.L} pathLength="1" />
+      <path class="trazo trazo-j" d={LJ.J} pathLength="1" />
+    </svg>
+    <span>Luis Jardón</span>
+  </a>
+  <nav class="nav-links" aria-label={lang === "es" ? "Principal" : "Main"}>
+    {enlaces.map(([id, texto]) => <a href={`${pre}#${id}`}>{texto}</a>)}
+  </nav>
+  <a class="nav-idioma" href={alterna} hreflang={lang === "es" ? "en" : "es"} lang={lang === "es" ? "en" : "es"} aria-label={t.otroIdioma}>{t.otroIdiomaCorto}</a>
+  <a class="nav-cv" href={cv} download>CV ↓</a>
+  <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu-movil" data-menu-btn data-txt-abrir={t.menu} data-txt-cerrar={t.cerrarMenu}>
+    <span class="hamb" aria-hidden="true"><i></i><i></i></span><span class="sr-only">{t.menu}</span>
+  </button>
+</header>
+
+<div class="menu-movil" id="menu-movil" data-menu hidden data-lenis-prevent>
+  <nav aria-label={t.menu}>
+    {enlaces.map(([id, texto]) => <a href={`${pre}#${id}`}>{texto}</a>)}
+  </nav>
+  <div class="menu-pie">
+    <a class="menu-cv" href={cv} download>{t.descargarCv}</a>
+    <a class="menu-cv" href={alterna} hreflang={lang === "es" ? "en" : "es"}>{t.otroIdioma}</a>
+  </div>
+</div>

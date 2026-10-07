@@ -1,0 +1,152 @@
+---
+// Base del portfolio: <head>, fuentes y modo sin animaciones.
+// Geist Sans + Geist Mono en toda la web.
+import "@fontsource/geist-sans/400.css";
+import "@fontsource/geist-sans/500.css";
+import "@fontsource/geist-sans/600.css";
+import "@fontsource/geist-mono/400.css";
+import "@fontsource/geist-mono/500.css";
+
+import "../styles/portfolio.css";
+// Las dos fuentes que se ven nada más cargar: se precargan para que el texto no cambie de forma (ni mueva nada) al llegar.
+import geist400 from "@fontsource/geist-sans/files/geist-sans-latin-400-normal.woff2?url";
+import geist600 from "@fontsource/geist-sans/files/geist-sans-latin-600-normal.woff2?url";
+import type { Lang } from "../data/contenido";
+import { ui, persona } from "../data/contenido";
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Ruta de esta página y de la misma página en el otro idioma (para hreflang y el botón de idioma). */
+  ruta: string;
+  alterna: string;
+  imagen?: string;
+}
+const { lang, title, description, ruta, alterna, imagen = "/og.png" } = Astro.props;
+const sitio = Astro.site ?? new URL("https://luisjardonpiquero.com");
+const abs = (r: string) => new URL(r, sitio).href;
+const otra: Lang = lang === "es" ? "en" : "es";
+const t = ui[lang];
+// Ficha para buscadores (schema.org): quién soy, a qué me dedico y dónde encontrarme.
+const personaLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: persona.nombre,
+  url: persona.web,
+  image: abs("/img/profile-about.webp"),
+  email: `mailto:${persona.email}`,
+  jobTitle: lang === "es" ? "Desarrollador full stack" : "Full stack developer",
+  address: { "@type": "PostalAddress", addressRegion: "Asturias", addressCountry: "ES" },
+  knowsLanguage: ["es", "en"],
+  sameAs: [persona.linkedin, persona.github],
+  knowsAbout: ["React", "TypeScript", "Astro", "Python", "FastAPI", "Android", "Docker", "Salesforce", "n8n"],
+};
+// Estadísticas de visitas con Umami (autoalojado). Solo se cargan si están configuradas en .env.
+const umamiUrl = import.meta.env.PUBLIC_UMAMI_URL;
+const umamiId = import.meta.env.PUBLIC_UMAMI_ID;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f4f4f2" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href={geist400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={geist600} as="font" type="font/woff2" crossorigin />
+    <link rel="canonical" href={abs(ruta)} />
+    <link rel="alternate" hreflang={lang} href={abs(ruta)} />
+    <link rel="alternate" hreflang={otra} href={abs(alterna)} />
+    <link rel="alternate" hreflang="x-default" href={abs(lang === "es" ? ruta : alterna)} />
+    <!-- Vista previa al compartir (LinkedIn, WhatsApp, X…) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Luis Jardón Piquero" />
+    <meta property="og:locale" content={lang === "es" ? "es_ES" : "en_GB"} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={abs(ruta)} />
+    <meta property="og:image" content={abs(imagen)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t.titulo} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(personaLd)} />
+    {umamiUrl && umamiId && <script is:inline defer src={`${umamiUrl}/script.js`} data-website-id={umamiId}></script>}
+    <script is:inline>
+      // El portfolio se ve siempre con animaciones; quien pida "reducir movimiento" tiene un botón para quitarlas.
+      (function () {
+        var sys = matchMedia("(prefers-reduced-motion: reduce)").matches, quitar = false;
+        try { quitar = localStorage.getItem("lj-motion") === "off"; } catch (e) {}
+        if (sys) document.documentElement.classList.add("sys-reduce");
+        if (quitar) document.documentElement.classList.add("reduce");
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">{t.saltar}</a>
+    <slot />
+    <button class="motion-toggle" type="button" data-motion-toggle data-txt-reducir={t.animaciones.reducir} data-txt-activar={t.animaciones.activar} hidden></button>
+    <script is:inline>
+      (function () {
+        var root = document.documentElement, btn = document.querySelector("[data-motion-toggle]");
+        if (!root.classList.contains("sys-reduce")) return;
+        btn.hidden = false;
+        btn.textContent = root.classList.contains("reduce") ? btn.dataset.txtActivar : btn.dataset.txtReducir;
+        btn.addEventListener("click", function () {
+          try { localStorage.setItem("lj-motion", root.classList.contains("reduce") ? "on" : "off"); } catch (e) {}
+          location.reload();
+        });
+      })();
+    </script>
+    <style is:global>
+      :root {
+        /* Una sola familia de grises (piedra neutra) y un único acento verde, poco saturado. */
+        --fondo: #f4f4f2;
+        --superficie: #fbfbfa;
+        --hundido: #e9e9e5;
+        --tinta: #171716;
+        --gris: #6f6e69;
+        --gris-claro: #a3a29c;
+        --linea: rgb(23 23 22 / 0.11);
+        --linea-fuerte: rgb(23 23 22 / 0.2);
+        --texto-2: #4a4945;
+        --titular-2: #8d8c86;
+        --tinta-hover: #2c2c2a;
+        --consola: #1b1b1a;
+        --r-1: 4px; --r-2: 6px; --r-3: 8px; --r-4: 10px;
+        --acento: #2f7a4f;
+        --acento-claro: #8fd1a9;
+        --sombra: 30 28 22;
+        --sans: "Geist Sans", system-ui, sans-serif;
+        --mono: "Geist Mono", ui-monospace, monospace;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      html { background: var(--fondo); scroll-behavior: smooth; }
+      body {
+        margin: 0; background: var(--fondo); color: var(--tinta); font: 400 16px/1.6 var(--sans);
+        -webkit-font-smoothing: antialiased; overflow-x: clip; font-feature-settings: "ss01";
+      }
+      /* Grano muy fino encima de todo: quita la sensación de pantalla plana. */
+      body::after {
+        content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none; opacity: 0.05; mix-blend-mode: multiply;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+      .saltar { position: fixed; left: 16px; top: -60px; z-index: 120; padding: 0.7rem 1rem; border-radius: 6px; background: var(--tinta); color: var(--fondo); font: 500 13px var(--mono); transition: top 0.2s; }
+      .saltar:focus { top: 16px; }
+      h1, h2, h3, p { margin: 0; }
+      a { color: inherit; }
+      img { display: block; max-width: 100%; }
+      :focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; }
+      .motion-toggle {
+        position: fixed; left: 16px; bottom: 16px; z-index: 90; padding: 0.55em 0.95em; border-radius: 999px; cursor: pointer;
+        font: 500 12px/1 var(--mono); color: var(--fondo); background: color-mix(in srgb, var(--tinta) 85%, transparent); border: 1px solid var(--linea);
+      }
+      .motion-toggle[hidden] { display: none; }
+    </style>
+  </body>
+</html>

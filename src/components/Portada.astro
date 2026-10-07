@@ -1,0 +1,273 @@
+---
+// Portada del portfolio (la misma para español e inglés; el texto sale de src/data/contenido.ts).
+// Grises piedra, tinta y un único acento verde; Geist Sans + Geist Mono.
+import Base from "../layouts/Base.astro";
+import Nav from "./Nav.astro";
+import Pie from "./Pie.astro";
+import { LJ } from "../data/logoLJ";
+import { persona, proyectos, experiencia, stack, formacion, flujos, ui, rutas, contactoEndpoint } from "../data/contenido";
+import type { Lang, Proyecto } from "../data/contenido";
+import { icono } from "../data/iconos";
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+const otra: Lang = lang === "es" ? "en" : "es";
+const img = (f: string) => `/img/${f}`;
+// Versiones reducidas (-480 / -240) generadas junto a cada imagen: el navegador elige la que necesita.
+const srcset = (f: string, ancho: number) => `${img(f.replace(".webp", "-480.webp"))} 480w, ${img(f)} ${ancho}w`;
+const vb = LJ.viewBox.join(" ");
+const cv = `/${persona.cv[lang]}`;
+const pagina = (p: Proyecto) => rutas[lang].proyecto(p.slug);
+// Lo que se lee en la barra de la "ventana" del navegador.
+const barra = (p: Proyecto) => {
+  const u = p.web ?? p.repo;
+  return u ? u.replace(/^https?:\/\//, "").replace(/\/$/, "") : `${p.slug} · ${p.nota?.[lang] ?? (lang === "es" ? "privado" : "private")}`.toLowerCase();
+};
+const destacados = proyectos.filter((p) => p.destacado);
+const otros = proyectos.filter((p) => !p.destacado);
+const mazo = [...destacados, proyectos.find((p) => p.slug === "home-lab")!]; // las cartas de la portada
+const tiposFlujo = ["empresa", "negocio"] as const;
+---
+
+<Base lang={lang} title={t.titulo} description={t.descripcion} ruta={rutas[lang].inicio} alterna={rutas[otra].inicio}>
+  <Nav lang={lang} alterna={rutas[otra].inicio} enPortada />
+
+  <main id="contenido">
+    <!-- ================= PORTADA ================= -->
+    <section class="hero">
+      <div class="hero-texto">
+        <p class="hero-pre" data-aparece><span class="punto" aria-hidden="true"></span>{t.disponible}</p>
+        <h1 class="hero-title">
+          <span class="linea"><span data-linea>{t.hero[0]}</span></span>
+          <span class="linea"><span data-linea><em>{t.hero[1]}</em></span></span>
+          <span class="linea"><span data-linea><em>{t.hero[2]}</em></span></span>
+        </h1>
+        <p class="hero-sub" data-aparece>{t.heroSub}</p>
+        <div class="hero-ctas" data-aparece>
+          <a class="btn" href="#proyectos">{t.verProyectos}</a>
+          <a class="btn btn-texto" href={cv} download>{t.descargarCv}</a>
+        </div>
+      </div>
+
+      <div class="mazo-zona">
+        <div class="mazo" data-mazo aria-label={t.mazoLabel}>
+          {mazo.map((p, k) => (
+            <figure class="carta" data-carta data-titulo={p.titulo} data-ancla={pagina(p)}>
+              <div class="ventana-barra"><i></i><i></i><i></i><span>{barra(p)}</span></div>
+              <div class={`carta-img ${p.encaje === "icono" ? "es-icono" : ""}`}><img src={img(p.img)} srcset={srcset(p.img, 800)} sizes="(max-width: 860px) 80vw, 470px" alt={p.alt[lang]} width="800" height="600" draggable="false" loading={k === 0 ? "eager" : "lazy"} fetchpriority={k === 0 ? "high" : "auto"} /></div>
+              <figcaption><span>{p.titulo}</span><span>{p.tipo[lang]} · {p.anio}</span></figcaption>
+            </figure>
+          ))}
+        </div>
+        <div class="mazo-pie">
+          <button class="mazo-btn" type="button" data-pasar aria-label={t.mazoPasarLabel}>{t.mazoPasar} <span aria-hidden="true">→</span></button>
+          <span class="mazo-ayuda" data-mazo-ayuda>{t.mazoAyuda}</span>
+          <a class="mazo-ver" href={pagina(mazo[0])} data-mazo-ver><span data-mazo-nombre>{mazo[0].titulo}</span> ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SOBRE MÍ ================= -->
+    <section class="seccion sobre" id="sobre-mi">
+      <div class="sobre-grid">
+        <figure class="sobre-foto" data-foto><img src={img("profile-about.webp")} alt={persona.nombre} width="350" height="524" loading="lazy" decoding="async" /></figure>
+        <div>
+          <h2 class="sec-titulo" data-titulo>{t.sobreTitulo[0]} <em>{t.sobreTitulo[1]}</em></h2>
+          <p class="sobre-texto" data-relleno>{t.sobreTexto}</p>
+          <div class="formacion">
+            <h3>{t.formacion}</h3>
+            <ul>{formacion.map((f) => <li><span>{f.titulo[lang]}</span><span>{f.donde}</span></li>)}</ul>
+          </div>
+          <dl class="datos">
+            {t.datos.map(([dt, dd]) => <div><dt>{dt}</dt><dd>{dd}</dd></div>)}
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EXPERIENCIA ================= -->
+    <section class="seccion experiencia" id="experiencia">
+      <h2 class="sec-titulo" data-titulo>{t.experiencia}</h2>
+      <ol class="exp">
+        {experiencia.map((e) => (
+          <li class="exp-fila" data-exp>
+            <span class="exp-cuando">{e.cuando[lang]}</span>
+            <div class="exp-quien"><strong>{e.empresa}</strong><span>{e.rol[lang]}</span></div>
+            <p class="exp-desc">{e.desc[lang]}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- ================= STACK: una fila por área, con los logos reales ================= -->
+    <section class="seccion stack" id="stack">
+      <h2 class="sec-titulo" data-titulo>{t.stackTitulo[0]} <em>{t.stackTitulo[1]}</em></h2>
+      <dl class="stack-filas">
+        {stack.map((g) => (
+          <div class="stack-fila" data-grupo>
+            <dt>{g.grupo[lang]}</dt>
+            <dd>
+              <ul>
+                {g.items.map(([nombre, slug]) => {
+                  const d = icono(slug);
+                  return <li>{d && <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d={d} /></svg>}{nombre}</li>;
+                })}
+              </ul>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <!-- ================= PROYECTOS: tres destacados y el resto en lista ================= -->
+    <section class="seccion proyectos" id="proyectos">
+      <header class="sec-cab">
+        <h2 class="sec-titulo" data-titulo>{t.proyectosTitulo[0]} <em>{t.proyectosTitulo[1]}</em></h2>
+        <p class="sec-intro">{t.proyectosIntro}</p>
+      </header>
+
+      <div class="proy-grid">
+        {destacados.map((p, i) => (
+          <article class={`proy ${i === 0 ? "proy-grande" : ""}`} data-proy>
+            <div class="ventana">
+              <div class="ventana-barra"><i></i><i></i><i></i><span>{barra(p)}</span></div>
+              <div class={`ventana-img ${p.encaje === "icono" ? "es-icono" : ""}`}>
+                <img src={img(p.completa ?? p.img)} alt={p.alt[lang]} loading="lazy" width="720" />
+              </div>
+            </div>
+            <div class="proy-info">
+              <p class="proy-n">{p.tipo[lang]} · {p.anio}</p>
+              <h3><a class="proy-link" href={pagina(p)}>{p.titulo}</a></h3>
+              <p class="proy-desc">{p.desc[lang]}</p>
+              <ul class="tags">{p.tags.map((tag) => <li>{tag}</li>)}</ul>
+              <div class="proy-pie">
+                <span class="proy-cta" aria-hidden="true">{t.verProyecto} <span>→</span></span>
+                {p.web && <a class="proy-codigo" href={p.web} target="_blank" rel="noopener">{t.verWeb} ↗</a>}
+                {p.repo && <a class="proy-codigo" href={p.repo} target="_blank" rel="noopener">{t.codigo}</a>}
+                {p.nota && <span class="proy-nota">{p.nota[lang]}</span>}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <h3 class="otros-titulo">{t.otrosProyectos}</h3>
+      <ul class="otros">
+        {otros.map((p) => (
+          <li class="otro" data-sube>
+            <div class={`otro-img ${p.encaje === "icono" ? "es-icono" : ""}`}><img src={img(p.img.replace(".webp", "-240.webp"))} alt="" loading="lazy" width="160" height="120" /></div>
+            <div class="otro-texto">
+              <h4><a class="proy-link" href={pagina(p)}>{p.titulo}</a></h4>
+              <p>{p.desc[lang]}</p>
+            </div>
+            <span class="otro-tipo">{p.tipo[lang]} · {p.anio}</span>
+            <span class="otro-flecha" aria-hidden="true">→</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- ================= ¿ENCAJAMOS? (flujo) ================= -->
+    <section class="seccion ia" id="encajamos" data-seccion-flujo>
+      <div class="flujo-cab">
+        <h2 class="sec-titulo" data-titulo>{t.encajamosTitulo[0]}<em>{t.encajamosTitulo[1]}</em>{t.encajamosTitulo[2]}</h2>
+        <p class="sec-intro">{t.encajamosIntro}</p>
+        <div class="pestanas" role="tablist" aria-label={t.encajamosTabs}>
+          {tiposFlujo.map((tipo, k) => <button type="button" role="tab" class="pestana" aria-selected={k === 0 ? "true" : "false"} data-pestana={tipo}>{flujos[lang][tipo].pestana}</button>)}
+        </div>
+      </div>
+
+      {tiposFlujo.map((tipo) => (
+        <div class="flujo" data-flujo={tipo}>
+          <ol class="flujo-pasos">
+            {flujos[lang][tipo].pasos.map((f, i) => (
+              <li class="paso" data-paso={i}>
+                <span class="paso-tipo">{f.tipo}</span>
+                <strong>{f.titulo}</strong>
+                <span class="paso-det">{f.detalle}</span>
+              </li>
+            ))}
+          </ol>
+          <div class="flujo-pie">
+            <div class="consola" aria-live="polite">
+              {flujos[lang][tipo].consola.map((l) => <p data-linea-consola>{l}</p>)}
+            </div>
+            <a class="btn btn-contactar" href="#contacto" data-contactar>{t.escribeme}</a>
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <!-- ================= CONTACTO ================= -->
+    <section class="seccion contacto" id="contacto">
+      <div class="contacto-texto">
+        <h2 class="contacto-titulo" data-titulo>{t.hablemos}</h2>
+        <p>{t.contactoTexto}</p>
+
+        <!-- Formulario: prepara el correo en el programa del visitante (o lo envía a un servicio si hay endpoint). -->
+        <form class="form" data-form data-endpoint={contactoEndpoint} data-email={persona.email} data-lang={lang} novalidate
+          data-txt-enviando={t.form.enviando} data-txt-ok={t.form.ok} data-txt-error={t.form.error}
+          data-txt-correo={lang === "es" ? "Se abrirá tu programa de correo con el mensaje preparado." : "Your email app will open with the message ready."}>
+          <h3 class="form-titulo">{t.form.titulo}</h3>
+          <div class="form-fila">
+            <label class="campo"><span>{t.form.nombre}</span><input name="nombre" autocomplete="name" required maxlength="80" data-error={t.form.errNombre} /></label>
+            <label class="campo"><span>{t.form.email}</span><input name="email" type="email" autocomplete="email" required maxlength="120" data-error={t.form.errEmail} /></label>
+          </div>
+          <fieldset class="campo motivos">
+            <legend>{t.form.motivo}</legend>
+            {t.form.motivos.map(([v, texto], k) => <label class="motivo"><input type="radio" name="motivo" value={v} checked={k === 0} /><span>{texto}</span></label>)}
+          </fieldset>
+          <label class="campo"><span>{t.form.mensaje}</span><textarea name="mensaje" rows="4" required minlength="10" maxlength="3000" data-error={t.form.errMensaje}></textarea></label>
+          <!-- Trampa para bots: las personas no lo ven ni lo rellenan -->
+          <label class="trampa" aria-hidden="true">Web<input name="web" tabindex="-1" autocomplete="off" /></label>
+          <div class="form-pie">
+            <button class="btn" type="submit" data-form-enviar>{contactoEndpoint ? t.form.enviar : t.form.abrirCorreo}</button>
+            <p class="form-nota">{contactoEndpoint ? t.form.privacidad : t.form.notaCorreo}</p>
+          </div>
+          <p class="form-estado" data-form-estado aria-live="polite"></p>
+        </form>
+      </div>
+
+      <div class="contacto-lado">
+        <div class="tarjeta-zona">
+          <button class="tarjeta" type="button" data-tarjeta aria-pressed="false" aria-label={t.tarjetaLabel}>
+            <span class="cara anverso">
+              <span class="anv-top">
+                <span class="t-nombre">Luis<br />Jardón Piquero</span>
+                <svg class="t-logo" viewBox={vb} aria-hidden="true"><path d={LJ.L} /><path class="j" d={LJ.J} /></svg>
+              </span>
+              <span class="t-lugar">{t.tarjetaLugar}</span>
+              <span class="t-rol">{t.tarjetaRol}</span>
+              <span class="t-regla"></span>
+              <span class="t-fila"><span>{t.tarjetaLinea}</span><em>Salesforce</em></span>
+            </span>
+            <span class="cara reverso">
+              <span class="rev-top">
+                <span class="t-lema">{t.tarjetaLema[0]}<br />{t.tarjetaLema[1]}<br /><em>{t.tarjetaLema[2]}</em></span>
+                <svg class="t-logo" viewBox={vb} aria-hidden="true"><path d={LJ.L} /><path class="j" d={LJ.J} /></svg>
+              </span>
+              <span class="rev-bottom">
+                <span class="t-contacto"><span>E</span>{persona.email}<span>in</span>/in/luis-jardón-p<span>W</span>luisjardonpiquero.com</span>
+                <img class="t-qr" src={img("qr-blanco.svg")} alt="" width="200" height="200" />
+              </span>
+            </span>
+          </button>
+          <p class="tarjeta-ayuda" aria-hidden="true">{t.tarjetaAyuda}</p>
+        </div>
+        <ul class="contacto-links">
+          <li><a href={`mailto:${persona.email}`} data-copiar={persona.email} data-txt-copiado={t.copiado}><span>{t.correo}</span><span data-copiar-texto>{persona.email}</span></a></li>
+          <li><a href={persona.linkedin} target="_blank" rel="noopener"><span>LinkedIn</span><span>/in/luis-jardón-p</span></a></li>
+          <li><a href={persona.github} target="_blank" rel="noopener"><span>GitHub</span><span>/LuisJardon</span></a></li>
+          <li><a href={cv} download><span>{t.cv}</span><span>{t.descargarPdf}</span></a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <Pie lang={lang} alterna={rutas[otra].inicio} />
+</Base>
+
+<script>
+  import "../scripts/inicio";
+</script>

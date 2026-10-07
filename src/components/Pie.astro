@@ -1,0 +1,24 @@
+---
+// Pie de página: enlaces útiles, idioma y volver arriba.
+import { persona, ui } from "../data/contenido";
+import type { Lang } from "../data/contenido";
+
+interface Props { lang: Lang; alterna: string }
+const { lang, alterna } = Astro.props;
+const t = ui[lang];
+---
+
+<footer class="pie">
+  <div class="pie-enlaces">
+    <a href={`mailto:${persona.email}`}>{persona.email}</a>
+    <a href={persona.github} target="_blank" rel="noopener">GitHub</a>
+    <a href={persona.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+    <a href={`/${persona.cv[lang]}`} download>CV</a>
+    <a href={alterna} hreflang={lang === "es" ? "en" : "es"}>{t.otroIdioma}</a>
+  </div>
+  <div class="pie-fila">
+    <span>© 2026 {persona.nombre}</span>
+    <span>{t.pieHecha}</span>
+    <a class="pie-arriba" href="#contenido">{t.volverArriba}</a>
+  </div>
+</footer>

@@ -1,48 +1,39 @@
-# Portfolio — Luis Jardón Piquero
+# Portfolio de Luis Jardón Piquero
 
-Portfolio personal de desarrollador, desplegado en infraestructura propia.
+Web personal en **español e inglés**, hecha con Astro (salida estática), GSAP y Lenis. Paleta "Piedra": grises neutros,
+un único acento verde y Geist Sans + Geist Mono.
 
-🌐 **Demo en producción:** [portfolio.rozadasnas.duckdns.org](https://portfolio.rozadasnas.duckdns.org)
-
----
-
-## 🛠️ Tecnologías
-
-- **HTML5** — estructura semántica
-- **CSS3** — diseño responsive y estilos propios (sin frameworks)
-- **JavaScript vanilla** — interactividad
-- **Docker + Caddy** — contenedor y servidor web con HTTPS automático
-- **NAS Synology** — infraestructura de autoalojamiento
-
----
-
-## 📁 Estructura
+## Estructura
 
 ```
-portfolio/
-├── index.html        ← Página principal
-├── style.css         ← Estilos globales
-├── script.js         ← Interactividad
-└── assets/
-    └── img/          ← Imágenes y recursos
+src/data/contenido.ts        ← TODO el contenido (es + en): proyectos, experiencia, stack, flujos y textos de la interfaz
+src/data/iconos.ts           ← logos de tecnologías (Simple Icons, incrustados)
+src/components/Portada.astro ← la portada (sirve para los dos idiomas)
+src/components/ProyectoPagina.astro ← la página de cada proyecto
+src/components/Nav.astro, Pie.astro ← menú y pie
+src/layouts/Base.astro       ← <head>: idioma, vista previa para redes, analítica opcional, paleta y fuentes
+src/styles/portfolio.css     ← estilos
+src/scripts/comun.ts         ← scroll suave, menú, logo, títulos (todas las páginas)
+src/scripts/inicio.ts        ← mazo, flujo "¿Encajamos?", formulario… (portada)
+src/pages/                   ← rutas: /, /en/, /proyectos/<slug>/, /en/projects/<slug>/
+servidor/                    ← cabeceras de seguridad para Caddy y Umami opcional (ver servidor/README.md)
+scripts/                     ← capturar-webs.mjs (capturas de página completa) y generar-og.mjs (imagen para redes)
+originales/                  ← imágenes originales antes de pasarlas a WebP (no se publican)
 ```
 
----
-
-## 🚀 Despliegue local
-
-Simplemente abre `index.html` en tu navegador, o sirve la carpeta con cualquier servidor estático:
+## Comandos
 
 ```bash
-# Con Python
-python -m http.server 8080
-
-# Con Node
-npx serve .
+npm run dev                       # http://localhost:4321 (en el lanzador de Claude: puerto 4420)
+npm run build                     # genera dist/
+node scripts/capturar-webs.mjs    # rehace public/img/completa/*.webp
+node scripts/generar-og.mjs       # rehace public/og.png
 ```
 
----
+## Configuración opcional (.env)
 
-## 👤 Autor
+Ver `.env.example`: servicio de envío del formulario y Umami, ambos opcionales. Sin ellos la web funciona igual.
 
-**Luis Jardón Piquero** — Desarrollador de Aplicaciones Multiplataforma
+## Publicar
+
+Copiar `dist/` a `/opt/portfolio` en el servidor `192.168.1.48` **sin borrar `/opt/portfolio/cafeteria`**.

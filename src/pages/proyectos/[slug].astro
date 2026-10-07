@@ -1,0 +1,12 @@
+---
+// Página de cada proyecto, en español.
+import ProyectoPagina from "../../components/ProyectoPagina.astro";
+import { proyectos } from "../../data/contenido";
+
+export function getStaticPaths() {
+  return proyectos.map((proyecto) => ({ params: { slug: proyecto.slug }, props: { proyecto } }));
+}
+const { proyecto } = Astro.props;
+---
+
+<ProyectoPagina lang="es" proyecto={proyecto} />

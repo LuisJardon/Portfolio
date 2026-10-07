@@ -1,0 +1,90 @@
+---
+// Página de un proyecto: qué es, el reto, qué hice, resultado, stack y la web entera dentro de una ventana.
+import Base from "../layouts/Base.astro";
+import Nav from "./Nav.astro";
+import Pie from "./Pie.astro";
+import { proyectos, ui, rutas } from "../data/contenido";
+import type { Lang, Proyecto } from "../data/contenido";
+import { iconoDe } from "../data/iconos";
+
+interface Props { lang: Lang; proyecto: Proyecto }
+const { lang, proyecto: p } = Astro.props;
+const t = ui[lang];
+const otra: Lang = lang === "es" ? "en" : "es";
+const img = (f: string) => `/img/${f}`;
+const i = proyectos.indexOf(p);
+const siguiente = proyectos[(i + 1) % proyectos.length];
+const url = p.web ?? p.repo;
+const barra = url ? url.replace(/^https?:\/\//, "").replace(/\/$/, "") : `${p.slug} · ${p.nota?.[lang] ?? (lang === "es" ? "privado" : "private")}`.toLowerCase();
+const titulo = `${p.titulo} · Luis Jardón Piquero`;
+---
+
+<Base lang={lang} title={titulo} description={p.pagina.resumen[lang]} ruta={rutas[lang].proyecto(p.slug)} alterna={rutas[otra].proyecto(p.slug)}>
+  <Nav lang={lang} alterna={rutas[otra].proyecto(p.slug)} />
+
+  <main id="contenido" class="caso">
+    <header class="caso-cab">
+      <a class="caso-volver" href={`${rutas[lang].inicio}#proyectos`}>{t.volver}</a>
+      <p class="proy-n">{p.tipo[lang]} · {p.anio}</p>
+      <h1 class="caso-titulo" data-titulo>{p.titulo}</h1>
+      <p class="caso-resumen" data-sube>{p.pagina.resumen[lang]}</p>
+      <div class="caso-acciones" data-sube>
+        {p.web && <a class="btn" href={p.web} target="_blank" rel="noopener">{t.verWeb} ↗</a>}
+        {p.repo && <a class={`btn ${p.web ? "btn-texto" : ""}`} href={p.repo} target="_blank" rel="noopener">{t.codigo} ↗</a>}
+        {p.nota && <span class="proy-nota">{p.nota[lang]}</span>}
+        {!url && !p.nota && <span class="proy-nota">{t.sinEnlace}</span>}
+      </div>
+      <dl class="caso-ficha" data-sube>
+        <div><dt>{t.rol}</dt><dd>{p.pagina.rol[lang]}</dd></div>
+        <div><dt>{t.anio}</dt><dd>{p.anio}</dd></div>
+        <div class="caso-stack">
+          <dt>Stack</dt>
+          <dd><ul>{p.pagina.stack.map((s) => { const d = iconoDe(s); return <li>{d && <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d={d} /></svg>}{s}</li>; })}</ul></dd>
+        </div>
+      </dl>
+    </header>
+
+    <!-- La web completa, dentro de una ventana que se recorre a voluntad (o la imagen del proyecto). -->
+    <figure class="caso-vista" data-sube>
+      <div class="ventana">
+        <div class="ventana-barra"><i></i><i></i><i></i><span>{barra}</span></div>
+        {p.completa
+          ? <div class="caso-scroll" tabindex="0" data-lenis-prevent aria-label={t.paginaCompleta}><img src={img(p.completa)} alt={`${t.paginaCompleta}: ${p.titulo}`} width="720" /></div>
+          : <div class={`ventana-img caso-imagen ${p.encaje === "icono" ? "es-icono" : ""}`}><img src={img(p.img)} alt={p.alt[lang]} width="800" height="600" /></div>}
+      </div>
+      {p.completa && <figcaption>{t.desplaza}</figcaption>}
+    </figure>
+
+    <section class="caso-cuerpo">
+      <div class="caso-bloque" data-sube>
+        <h2>{t.reto}</h2>
+        <p>{p.pagina.reto[lang]}</p>
+      </div>
+      <div class="caso-bloque" data-sube>
+        <h2>{t.hecho}</h2>
+        <ul class="caso-lista">{p.pagina.hecho[lang].map((h) => <li>{h}</li>)}</ul>
+      </div>
+      <div class="caso-bloque" data-sube>
+        <h2>{t.resultado}</h2>
+        <p>{p.pagina.resultado[lang]}</p>
+      </div>
+    </section>
+
+    {p.pagina.galeria && (
+      <section class="caso-galeria" aria-label={t.galeria}>
+        {p.pagina.galeria.map((g) => <figure data-sube><img src={img(g.img)} alt={g.alt[lang]} loading="lazy" width="900" height="600" /></figure>)}
+      </section>
+    )}
+
+    <a class="caso-siguiente" href={rutas[lang].proyecto(siguiente.slug)}>
+      <span>{t.siguiente}</span>
+      <strong>{siguiente.titulo} →</strong>
+    </a>
+  </main>
+
+  <Pie lang={lang} alterna={rutas[otra].proyecto(p.slug)} />
+</Base>
+
+<script>
+  import "../scripts/comun";
+</script>
