@@ -12,7 +12,21 @@ Si algún día se quiere que envíe solo, basta con poner la URL de un servicio 
 la web ya hace `POST` con JSON `{ nombre, email, motivo, mensaje, idioma, pagina }`. Ese servicio tendría que volver a validar
 los datos y no mandar respuestas automáticas al visitante (se podría usar para enviar spam a terceros).
 
-## 1. Cabeceras de seguridad (recomendado)
+## Caddyfile (aplicado el 2026-10-07)
+
+`servidor/Caddyfile` es la copia del `/opt/gestionbarber/Caddyfile` del servidor: GestionBarber, n8n, VeoVeo y el
+portfolio con cabeceras de seguridad, caché de `/_astro/`, redirecciones de la web antigua y la 404 propia.
+Copia anterior en el servidor: `/opt/gestionbarber/Caddyfile.bak-2026-10-07`.
+
+Para cambiarlo: editar aquí, subirlo como `Caddyfile.nuevo`, validarlo y aplicarlo (`cat` para no romper el montaje del archivo):
+
+```
+scp servidor\Caddyfile root@192.168.1.48:/opt/gestionbarber/Caddyfile.nuevo
+ssh root@192.168.1.48 "cd /opt/gestionbarber && docker cp Caddyfile.nuevo gb_caddy:/tmp/Caddyfile.nuevo && docker exec gb_caddy caddy validate --config /tmp/Caddyfile.nuevo --adapter caddyfile"
+ssh root@192.168.1.48 "cd /opt/gestionbarber && cat Caddyfile.nuevo > Caddyfile && docker exec gb_caddy caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile"
+```
+
+## 1. Cabeceras de seguridad (ya aplicadas, ver Caddyfile)
 
 En el bloque de `luisjardonpiquero.com` del Caddyfile:
 

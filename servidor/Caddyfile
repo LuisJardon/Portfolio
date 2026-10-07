@@ -1,0 +1,47 @@
+gestionbarber.rozadasnas.duckdns.org {
+	encode zstd gzip
+	reverse_proxy gb_frontend:80
+}
+
+n8n.rozadasnas.duckdns.org {
+	reverse_proxy gb_n8n:5678
+}
+
+veoveo.rozadasnas.duckdns.org {
+	reverse_proxy gb_veoveo:5555
+}
+
+# Portfolio (Astro estático en /opt/portfolio, montado como /srv/portfolio). Café Jardón vive en /cafeteria/.
+luisjardonpiquero.com, www.luisjardonpiquero.com, portfolio.rozadasnas.duckdns.org {
+	encode zstd gzip
+	root * /srv/portfolio
+
+	# Cabeceras de seguridad
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+		-Server
+	}
+
+	# Los archivos de /_astro/ llevan un código en el nombre que cambia con cada versión: se pueden guardar un año.
+	@versionados path /_astro/*
+	header @versionados Cache-Control "public, max-age=31536000, immutable"
+
+	# Páginas de la versión antigua del portfolio -> sus equivalentes nuevas
+	redir /servidor-personal.html /proyectos/home-lab/ permanent
+	redir /contacto.html /#contacto permanent
+
+	file_server
+
+	# Página 404 propia cuando una ruta no existe
+	handle_errors {
+		@noExiste expression `{err.status_code} == 404`
+		handle @noExiste {
+			rewrite * /404.html
+			file_server
+		}
+	}
+}
