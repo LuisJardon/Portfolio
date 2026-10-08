@@ -395,3 +395,81 @@ html.reduce .tarjeta { transition: none; }
   backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
 }
 .es-privado .ventana-img img { filter: saturate(0.85); }
+
+/* ================= PÁGINA DE PROYECTO: HISTORIA AMPLIADA ================= */
+.caso-etiqueta { font: 500 12px/1.5 var(--mono); color: var(--gris); padding-bottom: 0.8rem; margin-bottom: 1.6rem; border-bottom: 1px solid var(--linea); }
+.caso-seccion { margin-top: clamp(72px, 11vh, 128px); }
+
+/* Capturas de la app en marcos de móvil */
+.caso-moviles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 32px); margin-top: clamp(48px, 8vh, 80px); align-items: start; }
+.movil { margin: 0; display: grid; gap: 0.8rem; }
+.movil:nth-child(even) { margin-top: clamp(0px, 4vw, 56px); } /* desfasadas, como los proyectos */
+.movil-marco { padding: 8px; border-radius: 28px; background: var(--tinta); box-shadow: 0 30px 60px -36px rgb(var(--sombra) / 0.6); }
+.movil-marco img { width: 100%; height: auto; border-radius: 21px; }
+.movil figcaption { font: 400 12px/1.45 var(--mono); color: var(--gris); text-wrap: pretty; }
+
+/* Cifras reales */
+.caso-cifras { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem 2rem; margin: clamp(56px, 8vh, 88px) 0 0; padding: 1.4rem 0; border-top: 1px solid var(--linea); border-bottom: 1px solid var(--linea); }
+.caso-cifras dt { font: 600 clamp(2rem, 4vw, 3rem)/1 var(--sans); letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+.caso-cifras dd { margin: 0.5rem 0 0; font: 400 12.5px/1.4 var(--mono); color: var(--gris); }
+
+/* Por qué lo hice */
+.caso-porque p { max-width: 34ch; font: 400 clamp(1.35rem, 2.3vw, 1.9rem)/1.4 var(--sans); letter-spacing: -0.025em; text-wrap: pretty; }
+
+/* Esquema de cómo funciona */
+.esquema { display: grid; gap: 1rem; }
+.esquema-cadena { list-style: none; padding: 0; margin: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 32px; }
+.esquema-pieza { position: relative; display: grid; gap: 0.35rem; align-content: start; padding: 1.1rem 1.2rem; border-radius: var(--r-3); background: var(--superficie); box-shadow: 0 0 0 1px var(--linea); }
+.esquema-pieza strong { font: 600 1.05rem/1.2 var(--sans); letter-spacing: -0.02em; }
+.esquema-pieza span { font: 400 12.5px/1.45 var(--mono); color: var(--gris); }
+.esquema-cadena .esquema-pieza:not(:last-child)::after { /* flecha hacia la siguiente pieza */
+  content: "→"; position: absolute; right: -24px; top: 50%; translate: 0 -50%; font: 500 14px var(--mono); color: var(--acento);
+}
+.esquema-cadena .esquema-pieza:last-child { box-shadow: 0 0 0 1.5px var(--acento); }
+.esquema-ramas { list-style: none; padding: 1.4rem 0 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; position: relative; }
+.esquema-ramas::before { content: "↓"; position: absolute; top: -0.2rem; left: 50%; translate: -50% 0; font: 500 14px var(--mono); color: var(--acento); }
+.esquema-rama { background: var(--hundido); box-shadow: none; }
+.esquema-base { margin: 0.4rem 0 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; align-items: baseline; padding: 0.9rem 1.2rem; border-radius: var(--r-3); background: var(--tinta); color: var(--fondo); }
+.esquema-base strong { font: 600 1rem var(--sans); }
+.esquema-base span { font: 400 12.5px var(--mono); color: color-mix(in srgb, var(--fondo) 70%, transparent); }
+.esquema-nota { margin-top: 1rem; max-width: 70ch; font: 400 13px/1.5 var(--mono); color: var(--gris); }
+
+/* La historia por capítulos: una línea de tiempo vertical */
+.capitulos { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+.capitulo { position: relative; display: grid; grid-template-columns: minmax(150px, 0.3fr) 1fr; gap: 0.4rem clamp(24px, 4vw, 64px); padding: 1.6rem 0 1.6rem 0; border-top: 1px solid var(--linea); }
+.capitulo:last-child { border-bottom: 1px solid var(--linea); }
+.capitulo h3 { grid-column: 1; font: 600 clamp(1.2rem, 1.8vw, 1.45rem)/1.2 var(--sans); letter-spacing: -0.03em; text-wrap: balance; }
+.capitulo p { grid-column: 2; grid-row: 1 / span 2; max-width: 64ch; font-size: 1.05rem; line-height: 1.65; color: var(--texto-2); text-wrap: pretty; }
+.capitulo-cuando { grid-column: 1; font: 500 12px var(--mono); color: var(--acento); }
+.capitulo:has(.capitulo-cuando) p { grid-row: 1 / span 2; }
+
+/* Problemas que resolví */
+.problemas { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.problema { display: grid; gap: 1rem; padding: 1.3rem 1.4rem; border-radius: var(--r-3); background: var(--superficie); box-shadow: 0 0 0 1px var(--linea); }
+.problema span { font: 500 11.5px var(--mono); color: var(--gris); }
+.problema div:last-child span { color: var(--acento); }
+.problema p { margin-top: 0.3rem; line-height: 1.55; color: var(--texto-2); }
+.problema div:first-child p { color: var(--tinta); font-weight: 500; }
+
+/* Cita */
+.caso-cita { margin: clamp(72px, 11vh, 128px) 0 0; padding: 0 0 0 1.4rem; border-left: 2px solid var(--acento); }
+.caso-cita p { max-width: 30ch; font: 600 clamp(1.5rem, 3vw, 2.4rem)/1.2 var(--sans); letter-spacing: -0.04em; text-wrap: balance; }
+
+/* Cierre: lo que aprendí + lo siguiente */
+.caso-cierre { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.4rem clamp(24px, 4vw, 64px); margin-top: clamp(72px, 11vh, 128px); }
+.caso-cierre.sin-siguiente { grid-template-columns: minmax(0, 1fr); max-width: 760px; }
+
+@media (max-width: 1000px) {
+  .esquema-cadena { grid-auto-flow: row; grid-auto-columns: auto; gap: 26px; }
+  .esquema-cadena .esquema-pieza:not(:last-child)::after { content: "↓"; right: auto; left: 1.2rem; top: auto; bottom: -22px; translate: none; }
+  .esquema-ramas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .esquema-ramas::before { left: 1.2rem; translate: none; }
+  .caso-moviles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .caso-cifras { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  .capitulo { grid-template-columns: 1fr; }
+  .capitulo h3, .capitulo p, .capitulo-cuando { grid-column: 1; grid-row: auto; }
+  .capitulo:has(.capitulo-cuando) p { grid-row: auto; }
+  .problemas, .caso-cierre { grid-template-columns: 1fr; }
+}

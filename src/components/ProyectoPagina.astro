@@ -1,5 +1,5 @@
 ---
-// Página de un proyecto: qué es, el reto, qué hice, resultado, stack y la web entera dentro de una ventana.
+// Página de un proyecto: qué es, stack, la web entera en una ventana (o las capturas de la app) y su historia.
 import Base from "../layouts/Base.astro";
 import Nav from "./Nav.astro";
 import Pie from "./Pie.astro";
@@ -18,6 +18,9 @@ const siguiente = lista[(i + 1) % lista.length];
 const url = p.web ?? p.repo;
 const barra = url ? url.replace(/^https?:\/\//, "").replace(/\/$/, "") : `${p.slug} · ${p.nota?.[lang] ?? (lang === "es" ? "privado" : "private")}`.toLowerCase();
 const titulo = `${p.titulo} · Luis Jardón Piquero`;
+const pg = p.pagina;
+// Los proyectos con capítulos (VeoVeo, Home Lab) se cuentan como historia; el resto, con reto / qué hice / resultado.
+const historia = !!pg.capitulos?.length;
 ---
 
 <Base lang={lang} title={titulo} description={p.pagina.resumen[lang]} ruta={rutas[lang].proyecto(p.slug)} alterna={rutas[otra].proyecto(p.slug)}>
@@ -45,17 +48,106 @@ const titulo = `${p.titulo} · Luis Jardón Piquero`;
       </dl>
     </header>
 
-    <!-- La web completa, dentro de una ventana que se recorre a voluntad (o la imagen del proyecto). -->
-    <figure class="caso-vista" data-sube>
-      <div class="ventana">
-        <div class="ventana-barra"><i></i><i></i><i></i>{p.web ? <a class="barra-enlace" href={p.web} target="_blank" rel="noopener">{barra} <span aria-hidden="true">↗</span></a> : <span>{barra}</span>}</div>
-        {p.completa
-          ? <div class="caso-scroll" tabindex="0" data-lenis-prevent aria-label={t.paginaCompleta}><img src={img(p.completa)} alt={`${t.paginaCompleta}: ${p.titulo}`} width="720" /></div>
-          : <div class={`ventana-img caso-imagen ${p.encaje === "icono" ? "es-icono" : ""}`}><img src={img(p.img)} alt={p.alt[lang]} width="800" height="600" /></div>}
-      </div>
-      {p.completa && <figcaption>{t.desplaza}</figcaption>}
-    </figure>
+    {/* Capturas reales de la app en marcos de móvil; si no hay, la web completa en una ventana (o la imagen). */}
+    {pg.pantallas
+      ? (
+        <section class="caso-moviles" aria-label={t.pantallas}>
+          {pg.pantallas.map((s, k) => (
+            <figure class="movil" data-sube>
+              <div class="movil-marco"><img src={img(s.img)} alt={s.alt[lang]} width="480" height="985" loading={k < 2 ? "eager" : "lazy"} /></div>
+              <figcaption>{s.alt[lang]}</figcaption>
+            </figure>
+          ))}
+        </section>
+      )
+      : (
+        <figure class="caso-vista" data-sube>
+          <div class="ventana">
+            <div class="ventana-barra"><i></i><i></i><i></i>{p.web ? <a class="barra-enlace" href={p.web} target="_blank" rel="noopener">{barra} <span aria-hidden="true">↗</span></a> : <span>{barra}</span>}</div>
+            {p.completa
+              ? <div class="caso-scroll" tabindex="0" data-lenis-prevent aria-label={t.paginaCompleta}><img src={img(p.completa)} alt={`${t.paginaCompleta}: ${p.titulo}`} width="720" /></div>
+              : <div class={`ventana-img caso-imagen ${p.encaje === "icono" ? "es-icono" : ""}`}><img src={img(p.img)} alt={p.alt[lang]} width="800" height="600" /></div>}
+          </div>
+          {p.completa && <figcaption>{t.desplaza}</figcaption>}
+        </figure>
+      )}
 
+    {pg.cifras && (
+      <dl class="caso-cifras" data-sube>
+        {pg.cifras.map((c) => <div><dt>{c.valor}</dt><dd>{c.etiqueta[lang]}</dd></div>)}
+      </dl>
+    )}
+
+    {historia ? (
+      <>
+        {pg.porque && (
+          <section class="caso-seccion caso-porque" data-sube>
+            <h2 class="caso-etiqueta">{t.porque}</h2>
+            <p>{pg.porque[lang]}</p>
+          </section>
+        )}
+
+        {pg.esquema && (
+          <section class="caso-seccion" data-sube>
+            <h2 class="caso-etiqueta">{t.comoFunciona}</h2>
+            <div class="esquema">
+              <ol class="esquema-cadena">
+                {pg.esquema.cadena.map((n) => <li class="esquema-pieza"><strong>{n.titulo[lang]}</strong><span>{n.detalle[lang]}</span></li>)}
+              </ol>
+              {pg.esquema.ramas && (
+                <ul class="esquema-ramas">
+                  {pg.esquema.ramas.map((n) => <li class="esquema-pieza esquema-rama"><strong>{n.titulo[lang]}</strong><span>{n.detalle[lang]}</span></li>)}
+                </ul>
+              )}
+              {pg.esquema.base && <p class="esquema-base"><strong>{pg.esquema.base.titulo[lang]}</strong><span>{pg.esquema.base.detalle[lang]}</span></p>}
+            </div>
+            {pg.esquema.nota && <p class="esquema-nota">{pg.esquema.nota[lang]}</p>}
+          </section>
+        )}
+
+        <section class="caso-seccion">
+          <h2 class="caso-etiqueta" data-sube>{t.historia}</h2>
+          <ol class="capitulos">
+            {pg.capitulos!.map((c) => (
+              <li class="capitulo" data-sube>
+                {c.cuando && <span class="capitulo-cuando">{c.cuando[lang]}</span>}
+                <h3>{c.titulo[lang]}</h3>
+                <p>{c.texto[lang]}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {pg.problemas && (
+          <section class="caso-seccion">
+            <h2 class="caso-etiqueta" data-sube>{t.problemas}</h2>
+            <ul class="problemas">
+              {pg.problemas.map((x) => (
+                <li class="problema" data-sube>
+                  <div><span>{t.problema}</span><p>{x.problema[lang]}</p></div>
+                  <div><span>{t.solucion}</span><p>{x.solucion[lang]}</p></div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {pg.cita && <blockquote class="caso-cita" data-sube><p>{pg.cita[lang]}</p></blockquote>}
+
+        <section class={`caso-cierre ${pg.siguiente ? "" : "sin-siguiente"}`}>
+          <div class="caso-bloque" data-sube>
+            <h2>{t.aprendi}</h2>
+            <p>{pg.resultado[lang]}</p>
+          </div>
+          {pg.siguiente && (
+            <div class="caso-bloque" data-sube>
+              <h2>{t.proximo}</h2>
+              <ul class="caso-lista">{pg.siguiente[lang].map((x) => <li>{x}</li>)}</ul>
+            </div>
+          )}
+        </section>
+      </>
+    ) : (
     <section class="caso-cuerpo">
       <div class="caso-bloque" data-sube>
         <h2>{t.reto}</h2>
@@ -70,6 +162,7 @@ const titulo = `${p.titulo} · Luis Jardón Piquero`;
         <p>{p.pagina.resultado[lang]}</p>
       </div>
     </section>
+    )}
 
     {p.pagina.galeria && (
       <section class="caso-galeria" aria-label={t.galeria}>

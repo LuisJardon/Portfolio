@@ -49,8 +49,26 @@ export interface Proyecto {
     resultado: Txt;
     stack: string[];
     galeria?: { img: string; alt: Txt }[];
+    /* --- Historia ampliada (proyectos que no son una web que se pueda visitar) --- */
+    /** Por qué lo hice, en primera persona. */
+    porque?: Txt;
+    /** Cifras reales en una franja. */
+    cifras?: { valor: string; etiqueta: Txt }[];
+    /** Esquema de cómo funciona: cadena de piezas, ramas al final y base sobre la que corre todo. */
+    esquema?: { cadena: Pieza[]; ramas?: Pieza[]; base?: Pieza; nota?: Txt };
+    /** La historia por capítulos. */
+    capitulos?: { cuando?: Txt; titulo: Txt; texto: Txt }[];
+    /** Problemas reales y cómo los resolví. */
+    problemas?: { problema: Txt; solucion: Txt }[];
+    cita?: Txt;
+    /** Lo siguiente que quiero hacer. */
+    siguiente?: Record<Lang, string[]>;
+    /** Capturas de una app móvil (se muestran en marcos de móvil). */
+    pantallas?: { img: string; alt: Txt }[];
   };
 }
+
+type Pieza = { titulo: Txt; detalle: Txt };
 
 /** Proyectos con página de detalles propia (los privados no la tienen). */
 export const conPagina = () => proyectos.filter((p) => !p.privado);
@@ -214,21 +232,91 @@ export const proyectos: Proyecto[] = [
     encaje: "icono",
     repo: "https://github.com/LuisJardon/VeoVeoApp",
     pagina: {
-      rol: { es: "Proyecto personal", en: "Personal project" },
+      rol: { es: "Proyecto personal · todo el stack", en: "Personal project · whole stack" },
       resumen: {
-        es: "Quería saber qué había visto y qué me quedaba pendiente sin depender de apps de terceros, así que me hice la mía.",
-        en: "I wanted to know what I'd watched and what was left without relying on third-party apps, so I built my own.",
+        es: "Una app Android para buscar películas y series, puntuarlas y llevar la cuenta de lo que he visto y de lo que me queda, con su propia API en mi servidor.",
+        en: "An Android app to search films and series, rate them and keep track of what I've watched and what's left, with its own API on my server.",
       },
-      reto: {
-        es: "Que la app y su servidor funcionen solos, todos los días, sin mantenimiento.",
-        en: "Making the app and its server run on their own, every day, with no upkeep.",
+      reto: { es: "", en: "" },
+      hecho: { es: [], en: [] },
+      porque: {
+        es: "Quería algo muy simple: no perder la cuenta de qué películas y series había visto y cuáles tenía pendientes. En vez de depender de una app de terceros, me hice la mía, con mis datos guardados en mi propio servidor. Y de paso era la excusa perfecta para construir una app Android completa, de la pantalla a la base de datos.",
+        en: "I wanted something very simple: never lose track of which films and series I'd watched and which were still pending. Instead of relying on a third-party app, I built my own, with my data stored on my own server. It was also the perfect excuse to build a complete Android app, from the screen to the database.",
       },
-      hecho: {
-        es: ["App Android nativa.", "API REST propia en Flask (Python) con SQLite.", "Servidor en Docker, publicado con HTTPS en mi propio servidor."],
-        en: ["Native Android app.", "Custom Flask (Python) REST API with SQLite.", "Dockerised server, published over HTTPS on my own server."],
+      pantallas: [
+        { img: "veoveo/buscar.webp", alt: { es: "Buscador de VeoVeo con los resultados de «Titanic»", en: "VeoVeo search showing results for “Titanic”" } },
+        { img: "veoveo/ficha.webp", alt: { es: "Ficha de una película con sinopsis, director, actores y género", en: "Film page with synopsis, director, cast and genre" } },
+        { img: "veoveo/nota.webp", alt: { es: "Ventana para puntuar la película con estrellas", en: "Dialog to rate the film with stars" } },
+        { img: "veoveo/vistas.webp", alt: { es: "Lista «Mis películas vistas» ordenable por nota o por fecha", en: "“My watched films” list, sortable by rating or date" } },
+      ],
+      esquema: {
+        cadena: [
+          { titulo: { es: "Tu móvil", en: "Your phone" }, detalle: { es: "App Android en Java", en: "Android app in Java" } },
+          { titulo: { es: "HTTPS", en: "HTTPS" }, detalle: { es: "Subdominio propio detrás de Caddy", en: "Own subdomain behind Caddy" } },
+          { titulo: { es: "API propia", en: "Own API" }, detalle: { es: "Flask en un contenedor Docker", en: "Flask in a Docker container" } },
+          { titulo: { es: "Base de datos", en: "Database" }, detalle: { es: "SQLite: vistas, pendientes y notas", en: "SQLite: watched, pending and ratings" } },
+        ],
+        nota: {
+          es: "La búsqueda, los carteles y las fichas vienen de la API pública de OMDb, que la app consulta directamente.",
+          en: "Search results, posters and film details come from the public OMDb API, called straight from the app.",
+        },
       },
-      resultado: { es: "La uso a diario.", en: "I use it every day." },
-      stack: ["Android", "Flask", "Python", "SQLite", "Docker"],
+      capitulos: [
+        {
+          titulo: { es: "La idea", en: "The idea" },
+          texto: {
+            es: "Empezó como proyecto de 2.º de DAM: una app Android nativa, en Java, para buscar películas y series y apuntar las que ves. Quería que pareciera una app de verdad, no un ejercicio, así que le di una estética de cine clásico, con palomitas y claquetas de fondo.",
+            en: "It started as a second-year DAM project: a native Android app, in Java, to search films and series and log the ones you watch. I wanted it to feel like a real app, not an exercise, so I gave it a classic-cinema look with popcorn and clapperboards in the background.",
+          },
+        },
+        {
+          titulo: { es: "Buscar sin construir un catálogo", en: "Search without building a catalogue" },
+          texto: {
+            es: "En lugar de cargar yo miles de títulos, la app consulta la API de OMDb: escribes «Titanic» y aparecen el cartel, el año, la duración, la sinopsis, el director, los actores y el género. Retrofit hace las peticiones, Glide carga los carteles y Shimmer rellena el hueco mientras llegan los datos.",
+            en: "Instead of loading thousands of titles myself, the app queries the OMDb API: type “Titanic” and you get the poster, year, runtime, synopsis, director, cast and genre. Retrofit handles the requests, Glide loads the posters and Shimmer fills the gap while data arrives.",
+          },
+        },
+        {
+          titulo: { es: "Mi lista, con nota", en: "My list, with ratings" },
+          texto: {
+            es: "Cada título se marca como visto con una nota de estrellas (con medias estrellas incluidas) o se manda a pendientes. En «Mis películas vistas» se ordenan por nota o por fecha, para acordarme de qué me gustó más y de qué vi último.",
+            en: "Each title can be marked as watched with a star rating (half stars included) or sent to the pending list. “My watched films” can be sorted by rating or by date, so I remember what I liked most and what I watched last.",
+          },
+        },
+        {
+          titulo: { es: "Una API propia", en: "An API of my own" },
+          texto: {
+            es: "Lo que guardas no se queda solo en el móvil: lo recibe una API REST que escribí en Flask, con inicio de sesión y su base de datos SQLite. Al principio solo funcionaba conectado a la wifi de casa.",
+            en: "What you save doesn't just stay on the phone: it goes to a REST API I wrote in Flask, with login and its own SQLite database. At first it only worked on my home wifi.",
+          },
+        },
+        {
+          titulo: { es: "Sacarla de casa", en: "Taking it out of the house" },
+          texto: {
+            es: "Hoy la API corre en un contenedor Docker de mi servidor, publicada con su propio subdominio y certificado HTTPS. La app funciona igual con wifi que con datos móviles, esté donde esté.",
+            en: "Today the API runs in a Docker container on my server, published with its own subdomain and HTTPS certificate. The app works the same on wifi or mobile data, wherever I am.",
+          },
+        },
+      ],
+      problemas: [
+        {
+          problema: { es: "La app dejó de conectar porque la dirección del servidor estaba escrita dentro del código.", en: "The app stopped connecting because the server address was hard-coded." },
+          solucion: { es: "La saqué a la configuración de compilación: cambiar de servidor ya no obliga a tocar el código.", en: "I moved it into the build configuration, so changing servers no longer means touching the code." },
+        },
+        {
+          problema: { es: "Con datos móviles no llegaba a la API, que solo era accesible desde la red de casa.", en: "On mobile data the app couldn't reach the API, which was only reachable from my home network." },
+          solucion: { es: "La publiqué detrás del proxy de mi servidor, con dominio propio y HTTPS, en vez de abrir puertos a pelo.", en: "I published it behind my server's proxy, with its own domain and HTTPS, instead of just opening ports." },
+        },
+        {
+          problema: { es: "Las pantallas se veían vacías mientras cargaban los carteles.", en: "Screens looked empty while posters were loading." },
+          solucion: { es: "Un esqueleto animado (Shimmer) ocupa el sitio mientras llegan los datos, y Glide guarda los carteles en caché.", en: "An animated skeleton (Shimmer) holds the space while data arrives, and Glide caches the posters." },
+        },
+      ],
+      resultado: {
+        es: "Es la app que uso para llevar mis películas y series. Y me enseñó a pensar en todo el recorrido: lo que ve el usuario, la API que hay detrás y el servidor donde vive.",
+        en: "It's the app I use to keep track of my films and series. And it taught me to think about the whole journey: what the user sees, the API behind it and the server it lives on.",
+      },
+      stack: ["Android", "Java", "Retrofit", "Flask", "Python", "SQLite", "Docker"],
     },
   },
   {
@@ -250,34 +338,125 @@ export const proyectos: Proyecto[] = [
         es: "Un portátil antiguo convertido en servidor: empezó como NAS para mis archivos y hoy sirve esta web, GestionBarber, VeoVeo y mis automatizaciones.",
         en: "An old laptop turned into a server: it started as a NAS for my files and now serves this site, GestionBarber, VeoVeo and my automations.",
       },
-      reto: {
-        es: "Aprender de verdad qué pasa \"bajo el capó\": usuarios, permisos, redes, contenedores y seguridad, sin depender de la nube.",
-        en: "Really learning what happens under the hood: users, permissions, networking, containers and security, without relying on the cloud.",
+      reto: { es: "", en: "" },
+      hecho: { es: [], en: [] },
+      porque: {
+        es: "Nació de la curiosidad y de una necesidad: tener un sitio propio para mis archivos y una plataforma donde experimentar las 24 horas sin depender de la nube. Un portátil viejo que ya no usaba era el candidato perfecto: si rompía algo, solo rompía mi laboratorio.",
+        en: "It came from curiosity and a need: a place of my own for my files and a platform to experiment on around the clock without relying on the cloud. An old laptop I no longer used was the perfect candidate: if I broke something, I only broke my lab.",
       },
-      hecho: {
-        es: [
-          "Base con OpenMediaVault (Debian): usuarios, permisos y datos separados de los volúmenes de Docker.",
-          "SSH asegurado y acceso mínimo antes de exponer nada a internet.",
-          "Servicios en Docker con Portainer; n8n con PostgreSQL en una red interna, sin exponer la base de datos.",
-          "Dominio propio, DNS dinámico y proxy Caddy con certificados HTTPS automáticos.",
-          "Reconstruido desde cero en 2026 siguiendo un plan documentado paso a paso.",
+      cifras: [
+        { valor: "6", etiqueta: { es: "contenedores en marcha", en: "containers running" } },
+        { valor: "6", etiqueta: { es: "dominios con HTTPS automático", en: "domains with automatic HTTPS" } },
+        { valor: "5 min", etiqueta: { es: "entre actualizaciones del DNS", en: "between DNS updates" } },
+        { valor: "2 días", etiqueta: { es: "para reconstruirlo desde cero", en: "to rebuild it from scratch" } },
+      ],
+      esquema: {
+        cadena: [
+          { titulo: { es: "Internet", en: "Internet" }, detalle: { es: "Alguien abre luisjardonpiquero.com", en: "Someone opens luisjardonpiquero.com" } },
+          { titulo: { es: "DNS", en: "DNS" }, detalle: { es: "Dominio propio + DuckDNS, al día aunque cambie la IP", en: "Own domain + DuckDNS, kept current when the IP changes" } },
+          { titulo: { es: "Router", en: "Router" }, detalle: { es: "Solo los puertos 80 y 443 hacia el servidor", en: "Only ports 80 and 443 to the server" } },
+          { titulo: { es: "Caddy", en: "Caddy" }, detalle: { es: "Proxy con certificados HTTPS automáticos", en: "Proxy with automatic HTTPS certificates" } },
         ],
-        en: [
-          "OpenMediaVault (Debian) base: users, permissions and data kept apart from Docker volumes.",
-          "Hardened SSH and minimal access before exposing anything to the internet.",
-          "Dockerised services managed with Portainer; n8n with PostgreSQL on an internal network, database not exposed.",
-          "Own domain, dynamic DNS and a Caddy proxy with automatic HTTPS certificates.",
-          "Rebuilt from scratch in 2026 following a documented, step-by-step plan.",
+        ramas: [
+          { titulo: { es: "Este portfolio", en: "This portfolio" }, detalle: { es: "Web estática en Astro", en: "Static Astro site" } },
+          { titulo: { es: "GestionBarber", en: "GestionBarber" }, detalle: { es: "React + FastAPI + MySQL", en: "React + FastAPI + MySQL" } },
+          { titulo: { es: "VeoVeo", en: "VeoVeo" }, detalle: { es: "API en Flask", en: "Flask API" } },
+          { titulo: { es: "n8n", en: "n8n" }, detalle: { es: "Automatizaciones", en: "Automations" } },
         ],
+        base: { titulo: { es: "Un portátil antiguo", en: "An old laptop" }, detalle: { es: "OpenMediaVault (Debian) + Docker Compose", en: "OpenMediaVault (Debian) + Docker Compose" } },
+      },
+      capitulos: [
+        {
+          titulo: { es: "Un portátil viejo, un NAS nuevo", en: "An old laptop, a new NAS" },
+          texto: {
+            es: "Lo primero fue convertirlo en un NAS de verdad con OpenMediaVault: usuarios, permisos y, sobre todo, una estructura de carpetas que separa los datos personales, las copias de seguridad y los volúmenes de Docker. Así puedo trastear con contenedores sin miedo a romper mis fotos o mis documentos.",
+            en: "The first step was turning it into a proper NAS with OpenMediaVault: users, permissions and, above all, a folder structure that keeps personal data, backups and Docker volumes apart. That way I can tinker with containers without fear of breaking my photos or documents.",
+          },
+        },
+        {
+          titulo: { es: "Primero, la seguridad", en: "Security first" },
+          texto: {
+            es: "Antes de exponer nada a internet tocaba cerrar puertas: un usuario propio con permisos de administración para el día a día, acceso SSH controlado y entender de verdad qué implica cada puerto abierto. Fue mi primera lección práctica de ciberseguridad.",
+            en: "Before exposing anything to the internet I had to close doors: my own user with admin rights for everyday work, controlled SSH access and really understanding what every open port means. It was my first hands-on cybersecurity lesson.",
+          },
+        },
+        {
+          titulo: { es: "De disco en red a servidor de aplicaciones", en: "From network drive to app server" },
+          texto: {
+            es: "Con la base estable llegó Docker, y con Portainer pude gestionar los contenedores, ver sus registros en tiempo real y saber de un vistazo qué estaba funcionando. Ahí el portátil dejó de ser un disco en red y pasó a ser un servidor.",
+            en: "With a stable base came Docker, and Portainer let me manage containers, read their logs in real time and see at a glance what was running. That's when the laptop stopped being a network drive and became a server.",
+          },
+        },
+        {
+          titulo: { es: "Automatizar con n8n", en: "Automating with n8n" },
+          texto: {
+            es: "Quería flujos que conectaran servicios y APIs, así que monté n8n con su base de datos en una red interna de Docker: solo n8n puede hablar con ella y nada queda expuesto sin necesidad.",
+            en: "I wanted workflows that connect services and APIs, so I set up n8n with its database on an internal Docker network: only n8n can talk to it and nothing is exposed without reason.",
+          },
+        },
+        {
+          titulo: { es: "La pelea con la red", en: "Wrestling with the network" },
+          texto: {
+            es: "Aquí choqué con la realidad de las redes domésticas: puertos internos y externos, el reenvío en el router y una IP pública que cambia cuando quiere. Lo resolví con DNS dinámico: un temporizador actualiza DuckDNS cada cinco minutos, así que los dominios siempre apuntan a casa.",
+            en: "This is where I hit the reality of home networks: internal and external ports, router forwarding and a public IP that changes whenever it likes. I solved it with dynamic DNS: a timer updates DuckDNS every five minutes, so the domains always point home.",
+          },
+        },
+        {
+          cuando: { es: "Septiembre de 2026", en: "September 2026" },
+          titulo: { es: "El día que perdí el servidor", en: "The day I lost the server" },
+          texto: {
+            es: "El servidor donde corría todo dejó de existir, y con él GestionBarber, VeoVeo, n8n y el portfolio. En vez de reinstalar a lo loco, primero escribí un plan por capas (red, sistema, acceso, contenedores, proxy, copias y monitorización) y después lo reconstruí todo en este portátil en dos días: formateo, IP fija reservada en el router, el portátil configurado para no dormirse al cerrar la tapa, cada servicio descrito en Docker Compose y Caddy delante con HTTPS automático.",
+            en: "The server everything ran on was gone, and with it GestionBarber, VeoVeo, n8n and the portfolio. Instead of reinstalling in a rush, I first wrote a plan by layers (network, system, access, containers, proxy, backups and monitoring) and then rebuilt everything on this laptop in two days: a clean install, a fixed IP reserved on the router, the laptop set not to sleep when the lid closes, every service described in Docker Compose and Caddy in front with automatic HTTPS.",
+          },
+        },
+        {
+          cuando: { es: "Hoy", en: "Today" },
+          titulo: { es: "La base de todo lo que publico", en: "The base for everything I publish" },
+          texto: {
+            es: "Desde ese portátil se sirven esta web, la demo de Café Jardón, GestionBarber, la API de VeoVeo y n8n, cada uno con su dominio y su certificado. Y todo está documentado paso a paso, para que la próxima vez reconstruirlo sea cuestión de horas.",
+            en: "That laptop serves this site, the Café Jardón demo, GestionBarber, the VeoVeo API and n8n, each with its own domain and certificate. And it's all documented step by step, so next time rebuilding it is a matter of hours.",
+          },
+        },
+      ],
+      problemas: [
+        {
+          problema: { es: "El panel de OpenMediaVault ocupaba el puerto 80 y Caddy no podía conseguir los certificados HTTPS.", en: "The OpenMediaVault panel was using port 80, so Caddy couldn't obtain HTTPS certificates." },
+          solucion: { es: "Moví el panel a otro puerto, solo accesible desde casa, y dejé el 80 y el 443 para Caddy.", en: "I moved the panel to another port, reachable only from home, and left 80 and 443 to Caddy." },
+        },
+        {
+          problema: { es: "La IP pública de casa cambia sin avisar y los dominios dejaban de apuntar al servidor.", en: "My home public IP changes without warning, and the domains stopped pointing to the server." },
+          solucion: { es: "Un temporizador de systemd actualiza DuckDNS cada cinco minutos y al arrancar.", en: "A systemd timer updates DuckDNS every five minutes and at boot." },
+        },
+        {
+          problema: { es: "Al ser un portátil, se suspendía al cerrar la tapa y perdía la conexión.", en: "Being a laptop, it went to sleep when the lid closed and dropped the connection." },
+          solucion: { es: "Desactivé la suspensión por tapa e inactividad: ahora trabaja cerrado, como un servidor.", en: "I disabled lid and idle suspend: it now works closed, like a server." },
+        },
+        {
+          problema: { es: "Al principio cada servicio estaba instalado «como fue saliendo» y era difícil rehacerlo.", en: "At first every service was installed “as it came”, which made it hard to rebuild." },
+          solucion: { es: "Ahora todo está en Docker Compose: unos pocos archivos describen el servidor entero y reconstruirlo es repetible.", en: "Now everything lives in Docker Compose: a few files describe the whole server and rebuilding it is repeatable." },
+        },
+      ],
+      cita: {
+        es: "No tiene sentido montar un servidor potente si dejas la puerta principal abierta.",
+        en: "There's no point building a powerful server if you leave the front door open.",
       },
       resultado: {
-        es: "Un servidor casero es un 20 % instalación y un 80 % mantenimiento y diseño. Hoy es la base de todo lo que publico.",
-        en: "A home server is 20% installation and 80% maintenance and design. Today it runs everything I publish.",
+        es: "Este proyecto ha sido mi máster personal en administración de sistemas: un servidor casero es un 20 % instalación y un 80 % mantenimiento y diseño. Ahora entiendo qué pasa «bajo el capó» de cada servicio que uso.",
+        en: "This project has been my personal master's in systems administration: a home server is 20% installation and 80% maintenance and design. Now I understand what happens under the hood of every service I use.",
       },
-      stack: ["Debian", "OpenMediaVault", "Docker", "Portainer", "n8n", "PostgreSQL", "Caddy"],
-      galeria: [
-        { img: "home_server_setup.webp", alt: { es: "El servidor casero montado en su mesa", en: "The home server set up on its desk" } },
-      ],
+      siguiente: {
+        es: [
+          "Acceso remoto por Tailscale, con SSH solo por clave y doble factor.",
+          "Copias de seguridad 3-2-1, con una copia fuera de casa.",
+          "Monitorización con Uptime Kuma y avisos al móvil si algo se cae.",
+        ],
+        en: [
+          "Remote access through Tailscale, with key-only SSH and two-factor auth.",
+          "3-2-1 backups, with one copy off-site.",
+          "Monitoring with Uptime Kuma and phone alerts if anything goes down.",
+        ],
+      },
+      stack: ["Debian", "OpenMediaVault", "Docker", "Portainer", "Caddy", "n8n", "Linux"],
     },
   },
   {
@@ -442,6 +621,8 @@ export const ui = {
     volver: "← Todos los proyectos", rol: "Rol", anio: "Año", reto: "El reto", hecho: "Qué hice", resultado: "Resultado",
     paginaCompleta: "Página de inicio completa", desplaza: "Desplázate dentro de la ventana para verla entera",
     siguiente: "Siguiente proyecto", galeria: "Imágenes", sinEnlace: "Sin enlace público",
+    porque: "Por qué lo hice", comoFunciona: "Cómo funciona", historia: "La historia", problemas: "Problemas que resolví",
+    problema: "El problema", solucion: "Cómo lo resolví", aprendi: "Lo que aprendí", proximo: "Lo siguiente", pantallas: "La app",
     animaciones: { reducir: "Reducir animaciones", activar: "Activar animaciones" },
   },
   en: {
@@ -491,6 +672,8 @@ export const ui = {
     volver: "← All projects", rol: "Role", anio: "Year", reto: "The challenge", hecho: "What I did", resultado: "Outcome",
     paginaCompleta: "Full home page", desplaza: "Scroll inside the window to see all of it",
     siguiente: "Next project", galeria: "Images", sinEnlace: "No public link",
+    porque: "Why I built it", comoFunciona: "How it works", historia: "The story", problemas: "Problems I solved",
+    problema: "The problem", solucion: "How I solved it", aprendi: "What I learned", proximo: "What's next", pantallas: "The app",
     animaciones: { reducir: "Reduce motion", activar: "Turn on motion" },
   },
 };
