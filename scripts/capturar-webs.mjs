@@ -5,8 +5,8 @@ import sharp from "sharp";
 
 const SALIDA = "C:/Users/Luis/Music/Proyectos/portfolio-2026/public/img/completa";
 const webs = [
-  ["cafe-jardon", "https://luisjardonpiquero.com/cafeteria/"],
-  ["judo-astures", "http://localhost:4321/"],
+  ["cafe-jardon", "https://cafeteria.luisjardonpiquero.com/"],
+  ["judo-astures", "https://judoastures.es/"],
   ["gestionbarber", "https://gestionbarber.rozadasnas.duckdns.org/"],
   ["happiness", "https://luisjp1999.neocities.org/"],
 ];

@@ -128,21 +128,19 @@ export const proyectos: Proyecto[] = [
     anio: "2026",
     tipo: { es: "Freelance", en: "Freelance" },
     desc: {
-      es: "Web para un club de judo con cinco sedes en Asturias, pensada para que las familias reserven una clase de prueba. Mapa interactivo de sedes y accesibilidad cuidada.",
-      en: "Website for a judo club with five locations in Asturias, built so families book a free trial class. Interactive map of locations and careful accessibility.",
+      es: "Web para un club de judo con seis sedes en Asturias, pensada para que las familias reserven una clase de prueba. Mapa interactivo de sedes y accesibilidad cuidada.",
+      en: "Website for a judo club with six locations in Asturias, built so families book a free trial class. Interactive map of locations and careful accessibility.",
     },
     tags: ["Astro", "TypeScript", "GSAP", "Leaflet"],
     img: "judo-astures.webp",
     alt: { es: "Portada de la web de Judo Astures", en: "Judo Astures home page" },
     completa: "completa/judo-astures.webp",
-    // Privado hasta que el club lance la web: para mostrarlo entero, quitar "privado" (vuelve el enlace y su página).
-    privado: true,
-    nota: { es: "Proyecto para un cliente · se publicará con su lanzamiento", en: "Client project · goes public at launch" },
+    web: "https://judoastures.es/",
     pagina: {
       rol: { es: "Proyecto freelance completo", en: "End-to-end freelance project" },
       resumen: {
-        es: "Un club con veinte años de historia y cinco sedes necesitaba una web que se sintiera como entrar en un dojo y que llevara a una sola acción: reservar la clase de prueba.",
-        en: "A club with twenty years of history and five locations needed a site that feels like walking into a dojo and leads to one action: booking the trial class.",
+        es: "Un club con veinte años de historia y seis sedes necesitaba una web que se sintiera como entrar en un dojo y que llevara a una sola acción: reservar la clase de prueba.",
+        en: "A club with twenty years of history and six locations needed a site that feels like walking into a dojo and leads to one action: booking the trial class.",
       },
       reto: {
         es: "Evitar la típica plantilla de gimnasio y ordenar mucha información (sedes, horarios, grupos) sin abrumar a una familia que entra por primera vez.",
@@ -151,20 +149,20 @@ export const proyectos: Proyecto[] = [
       hecho: {
         es: [
           "Identidad \"judo japonés, carácter asturiano\": kanji como textura, el obi como hilo conductor y fotos reales.",
-          "Mapa interactivo de las cinco sedes con Leaflet y OpenStreetMap, sin servicios de pago.",
+          "Mapa interactivo de las seis sedes con Leaflet y OpenStreetMap, sin servicios de pago.",
           "Horarios y contenido editables desde archivos de datos, sin tocar el diseño.",
           "Accesibilidad: contraste, textos alternativos y versión sin animaciones.",
         ],
         en: [
           "\"Japanese judo, Asturian character\" identity: kanji as texture, the obi as a running thread, real photos.",
-          "Interactive map of the five locations with Leaflet and OpenStreetMap, no paid services.",
+          "Interactive map of the six locations with Leaflet and OpenStreetMap, no paid services.",
           "Timetables and content editable from data files, without touching the design.",
           "Accessibility: contrast, alt text and a reduced-motion version.",
         ],
       },
       resultado: {
-        es: "Terminada y validada con el club; se publicará cuando tengan su dominio.",
-        en: "Finished and reviewed with the club; it goes live once their domain is ready.",
+        es: "En línea en judoastures.es, el dominio del club, alojada en Cloudflare Pages: se publica sola con cada cambio y mide las visitas sin cookies.",
+        en: "Live at judoastures.es, the club's own domain, hosted on Cloudflare Pages: it deploys itself on every change and counts visits without cookies.",
       },
       stack: ["Astro", "TypeScript", "GSAP", "Lenis", "Leaflet"],
     },
