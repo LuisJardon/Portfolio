@@ -88,7 +88,7 @@ export const proyectos: Proyecto[] = [
     img: "cafe-jardon.webp",
     alt: { es: "Portada de Café Jardón con vasos de café en 3D", en: "Café Jardón home page with 3D coffee cups" },
     completa: "completa/cafe-jardon.webp",
-    web: "https://luisjardonpiquero.com/cafeteria/",
+    web: "https://cafeteria.luisjardonpiquero.com/",
     repo: "https://github.com/LuisJardon/cafe-jardon",
     pagina: {
       rol: { es: "Diseño, 3D y desarrollo", en: "Design, 3D and development" },
