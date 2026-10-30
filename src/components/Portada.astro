@@ -42,7 +42,19 @@ const tiposFlujo = ["empresa", "negocio"] as const;
     <!-- ================= PORTADA ================= -->
     <section class="hero">
       <div class="hero-texto">
-        <p class="hero-pre" data-aparece><span class="punto" aria-hidden="true"></span>{t.disponible}</p>
+        <div class="hero-avisos">
+          {t.aviso && (
+            <a class="aviso" href={t.aviso.enlace} target="_blank" rel="noopener" data-aparece>
+              <img class="aviso-img" src={img("judo-astures-240.webp")} alt="" width="240" height="180" />
+              <span class="aviso-texto">
+                <strong class="aviso-titulo">{t.aviso.titulo}</strong>
+                <span class="aviso-sub">{t.aviso.texto}</span>
+              </span>
+              <span class="aviso-ir"><span class="aviso-ir-txt">{t.aviso.accion}</span> <span class="aviso-flecha" aria-hidden="true">↗</span></span>
+            </a>
+          )}
+          <p class="hero-pre" data-aparece><span class="punto" aria-hidden="true"></span>{t.disponible}</p>
+        </div>
         <h1 class="hero-title">
           <span class="linea"><span data-linea>{t.hero[0]}</span></span>
           <span class="linea"><span data-linea><em>{t.hero[1]}</em></span></span>

@@ -136,6 +136,7 @@ export const proyectos: Proyecto[] = [
     alt: { es: "Portada de la web de Judo Astures", en: "Judo Astures home page" },
     completa: "completa/judo-astures.webp",
     web: "https://judoastures.es/",
+    nota: { es: "Recién lanzada", en: "Just launched" },
     pagina: {
       rol: { es: "Proyecto freelance completo", en: "End-to-end freelance project" },
       resumen: {
@@ -578,6 +579,8 @@ export const ui = {
     nav: { sobre: "Sobre mí", experiencia: "Experiencia", proyectos: "Proyectos", encajamos: "¿Encajamos?", contacto: "Contacto" },
     menu: "Menú", cerrarMenu: "Cerrar menú", descargarCv: "Descargar CV", otroIdioma: "English", otroIdiomaCorto: "EN",
     disponible: "Disponible para incorporarme",
+    // Aviso de la portada: para quitarlo cuando deje de ser novedad, borrar esta línea y la de inglés.
+    aviso: { titulo: "Nueva web publicada", texto: "Judo Astures ya está en línea", accion: "Verla", enlace: "https://judoastures.es/" },
     hero: ["Desarrollo webs y apps", "de la base de datos", "al último píxel."],
     heroSub: "Desarrollador full stack con experiencia en Capgemini y Grupo Cobra. Creo aplicaciones completas y tengo un interés especial en la inteligencia artificial y en Salesforce.",
     verProyectos: "Ver proyectos ↓",
@@ -630,6 +633,7 @@ export const ui = {
     nav: { sobre: "About", experiencia: "Experience", proyectos: "Projects", encajamos: "Good fit?", contacto: "Contact" },
     menu: "Menu", cerrarMenu: "Close menu", descargarCv: "Download CV", otroIdioma: "Español", otroIdiomaCorto: "ES",
     disponible: "Available to start now",
+    aviso: { titulo: "New website launched", texto: "Judo Astures is now live", accion: "Visit", enlace: "https://judoastures.es/" },
     hero: ["I build websites and apps", "from the database", "to the last pixel."],
     heroSub: "Full stack developer with experience at Capgemini and Grupo Cobra. I build complete applications, with a particular interest in artificial intelligence and Salesforce.",
     verProyectos: "See projects ↓",
